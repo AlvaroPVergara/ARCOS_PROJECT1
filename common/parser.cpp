@@ -1,7 +1,7 @@
 //
 // Created by xxmid on 02/10/2022.
 //
-#include "image.h"
+#include "../includes/common.h"
 
 void print_format()
 {

@@ -8,14 +8,14 @@ add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 
-add_library(common common.cpp)
+add_library(common common/common.cpp)
 
 
-add_library(aos file1-aos.cpp)
-add_library(soa file1-soa.cpp)
+add_library(aos aos/file1-aos.cpp)
+add_library(soa soa/file1-soa.cpp)
 
-add_executable(imgaos image-aos.cpp)
+add_executable(imgaos aos/image-aos.cpp)
 target_link_libraries(imgaos common aos)
 
-add_executable(imgsoa image-soa.cpp)
+add_executable(imgsoa soa/image-soa.cpp)
 target_link_libraries(imgsoa common soa)
