@@ -11,5 +11,6 @@
 #include <filesystem>
 
 int arg_parser (int argc, char *argv[]);
+std::vector<std::filesystem::path> checkbmp(std::string path);
 
 #endif //ARCOS_PROJECT1_COMMON_H
