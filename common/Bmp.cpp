@@ -76,7 +76,7 @@ int Bmp::Read(const char *path) {
             file.read(reinterpret_cast<char *>(color), 3);
             m_colors[y * m_width + x].r = static_cast<float>(color[2]) / 255.0f;
             m_colors[y * m_width + x].g = static_cast<float>(color[1]) / 255.0f;
-            m_colors[y * m_width + x].b = static_cast<float>(color[3]) / 255.0f;
+            m_colors[y * m_width + x].b = static_cast<float>(color[0]) / 255.0f;
         }
 
         file.ignore(paddingAmount);
