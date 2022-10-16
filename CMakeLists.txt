@@ -8,7 +8,7 @@ add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 
-add_library(common common/common.cpp)
+add_library(common common/common.cpp common/parser.cpp)
 
 
 add_library(aos aos/file1-aos.cpp)

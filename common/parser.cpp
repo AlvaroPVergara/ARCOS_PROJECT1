@@ -9,12 +9,66 @@ void print_format()
     std::cout << "\t\toperation: copy, histo, mono, gauss" << std::endl;
 }
 
+
+//This function checks that the 3º argument given is one of the four needed for the program
+int check_last_arg(std::string lastarg)
+{
+    if (lastarg != "copy" or lastarg != "histo" or lastarg != "mono" or lastarg != "gauss")
+    {
+        std::cout << "Unexpected Operation: " << lastarg << std::endl;
+        print_format();
+        return (-1);
+    }
+    return (0);
+}
+
+
+//This function will check if a certain directory exists
+//directory is the path to the directory to check
+//type equals 0 if the directory is for input and equals 1 if
+//the directory is for output
+int check_dir(std::string directory, int type)
+{
+    if (std::filesystem::exists(directory)==false)
+    {
+        if(type==0)
+        {
+            std::cout << "Input path: inx" << std::endl;
+            std::cout << "Output path: out" << std::endl;
+            std::cout << "Cannot open directory [inx]" << std::endl;
+        }
+        else if(type==1)
+        {
+            std::cout << "Input path: indir" << std::endl;
+            std::cout << "Output path: outx" << std::endl;
+            std::cout << "Output directory [outx] does not exist" << std::endl;
+        }
+        print_format();
+        return(-1);
+    }
+    return(0);
+}
+
+
+
 int arg_parser (int argc, char *argv[])
 {
     if (argc != 4)
     {
         std::cout << "Wrong format:" << std::endl;
         print_format();
+        return (-1);
+    }
+    if (check_last_arg(argv[2])<0)
+    {
+        return (-1);
+    }
+    if (check_dir(argv[0],0)<0)
+    {
+        return (-1);
+    }
+    if (check_dir(argv[1],1)<0)
+    {
         return (-1);
     }
     // Seguir parseando
