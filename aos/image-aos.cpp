@@ -4,17 +4,22 @@
 
 #include "../includes/common.h"
 
-int main ()
-{
-    const int w = 640;
-    const int h = 480;
+void trabaja(std::filesystem::path filePath){
+    BmpAOS bmp;
 
-    BmpAOS bmp(w, h);
-    for (int y = 0; y < h; y++){
-        for (int x = 0; x < w; x++){
-            bmp.SetColor(ColorAOS((float)x / (float)w, 1.0f - ((float)x / (float)w), (float)y / (float)h), x, y);
-        }
+    std::string prefix = "new_";
+    bmp.Read(filePath.string().c_str());
+    bmp.Export( prefix.append(filePath.string()).c_str());
+}
+
+int main (int argc, char *argv[])
+{
+    std::vector<std::filesystem::path> BmpPaths;
+    if (ArgParser(argc, argv) < 0)
+        return (-1);
+    BmpPaths = GetBmpPaths(argv[1]);
+    for (const auto &path : BmpPaths){
+        trabaja(path);
     }
-    bmp.Export("test.bmp");
     return (0);
 }

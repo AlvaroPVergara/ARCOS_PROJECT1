@@ -59,15 +59,15 @@ int ArgParser (int argc, char *argv[])
         print_format();
         return (-1);
     }
-    if (check_last_arg(argv[2])<0)
+    if (check_last_arg(argv[3])<0)
     {
         return (-1);
     }
-    if (check_dir(argv[0],0)<0)
+    if (check_dir(argv[1],0)<0)
     {
         return (-1);
     }
-    if (check_dir(argv[1],1)<0)
+    if (check_dir(argv[2],1)<0)
     {
         return (-1);
     }
