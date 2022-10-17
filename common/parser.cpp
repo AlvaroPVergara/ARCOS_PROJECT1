@@ -13,13 +13,15 @@ void print_format()
 //This function checks that the 3º argument given is one of the four needed for the program
 int check_last_arg(const std::string& lastarg)
 {
-    if (lastarg != "copy" or lastarg != "histo" or lastarg != "mono" or lastarg != "gauss")
+    if (lastarg == "copy" or lastarg == "histo" or lastarg == "mono" or lastarg == "gauss")
     {
+        return (0);
+    }
+    else{
         std::cout << "Unexpected Operation: " << lastarg << std::endl;
         print_format();
         return (-1);
     }
-    return (0);
 }
 
 
