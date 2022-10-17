@@ -4,15 +4,15 @@
 
 #include "../includes/common.h"
 
-std::vector<std::filesystem::path> checkbmp(std::string path)
+std::vector<std::filesystem::path> CheckBmp(std::string path)
 {
-    std::vector <std::filesystem::path> bmpfiles;
+    std::vector <std::filesystem::path> bmpFiles;
     for (const auto & entry : std::filesystem::directory_iterator(path))
     {
-        if (entry.path().extension()=="bmp")
+        if (entry.path().extension() == "bmp")
         {
-            bmpfiles.push_back(entry.path());
+            bmpFiles.push_back(entry.path());
         }
     }
-    return (bmpfiles);
+    return (bmpFiles);
 }

@@ -11,10 +11,10 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
-#include "Bmp.h"
+#include "BmpAOS.h"
 
-int arg_parser (int argc, char *argv[]);
-std::vector<std::filesystem::path> checkbmp(std::string path);
-int FileCopy(std::filesystem::path source, std::string target);
+int ArgParser (int argc, char *argv[]);
+std::vector<std::filesystem::path> CheckBmp(std::string path);
+int FileCopy(const std::filesystem::path& source, const std::string& target);
 
 #endif //ARCOS_PROJECT1_COMMON_H

@@ -4,13 +4,17 @@
 
 #include "../includes/common.h"
 
-int main (int argc, char *argv[])
+int main ()
 {
-    //TODO: Remove debug printss
-    std::cout << "AOS INIT" << std::endl;
-    if (arg_parser(argc, argv) < 0)
-    {
-        return (-1);
+    const int w = 640;
+    const int h = 480;
+
+    BmpAOS bmp(w, h);
+    for (int y = 0; y < h; y++){
+        for (int x = 0; x < w; x++){
+            bmp.SetColor(ColorAOS((float)x / (float)w, 1.0f - ((float)x / (float)w), (float)y / (float)h), x, y);
+        }
     }
+    bmp.Export("test.bmp");
     return (0);
 }

@@ -4,7 +4,7 @@
 
 #include "../includes/common.h"
 
-int FileCopy(std::filesystem::path source, std::string target)
+int FileCopy(const std::filesystem::path& source, const std::string& target)
 {
     std::filesystem::path finalpath = target / source.filename();
     if (!std::filesystem::copy_file(source, finalpath, std::filesystem::copy_options::overwrite_existing))

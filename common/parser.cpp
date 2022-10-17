@@ -11,7 +11,7 @@ void print_format()
 
 
 //This function checks that the 3º argument given is one of the four needed for the program
-int check_last_arg(std::string lastarg)
+int check_last_arg(const std::string& lastarg)
 {
     if (lastarg != "copy" or lastarg != "histo" or lastarg != "mono" or lastarg != "gauss")
     {
@@ -27,9 +27,9 @@ int check_last_arg(std::string lastarg)
 //directory is the path to the directory to check
 //type equals 0 if the directory is for input and equals 1 if
 //the directory is for output
-int check_dir(std::string directory, int type)
+int check_dir(const std::string& directory, int type)
 {
-    if (std::filesystem::exists(directory)==false)
+    if (!std::filesystem::exists(directory))
     {
         if(type==0)
         {
@@ -51,7 +51,7 @@ int check_dir(std::string directory, int type)
 
 
 
-int arg_parser (int argc, char *argv[])
+int ArgParser (int argc, char *argv[])
 {
     if (argc != 4)
     {

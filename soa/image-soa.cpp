@@ -8,7 +8,7 @@ int main (int argc, char *argv[])
 {
     //TODO: Remove debug printss
     std::cout << "SOA INIT" << std::endl;
-    if (arg_parser(argc, argv) < 0)
+    if (ArgParser(argc, argv) < 0)
     {
         return (-1);
     }
