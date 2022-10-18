@@ -8,7 +8,7 @@ std::vector<std::filesystem::path> GetBmpPaths(std::string path){
     std::vector <std::filesystem::path> bmpFiles;
     for (const auto & entry : std::filesystem::directory_iterator(path))
     {
-        if (entry.path().extension() == "bmp")
+        if (entry.path().extension() == ".bmp")
         {
             bmpFiles.push_back(entry.path());
         }
@@ -25,3 +25,5 @@ std::vector<std::filesystem::path> GetBmpPaths(std::string path){
     }*/
     return (bmpFiles);
 }
+
+

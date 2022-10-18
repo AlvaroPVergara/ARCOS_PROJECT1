@@ -18,8 +18,14 @@ int main (int argc, char *argv[])
     if (ArgParser(argc, argv) < 0)
         return (-1);
     BmpPaths = GetBmpPaths(argv[1]);
+
+
     for (const auto &path : BmpPaths){
         trabaja(path);
     }
+
+    //Copy a single file:
+    //FileCopy(BmpPaths[0],argv[2]);
+
     return (0);
 }
