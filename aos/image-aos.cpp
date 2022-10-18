@@ -12,6 +12,17 @@ void trabaja(std::filesystem::path filePath){
     bmp.Export( prefix.append(filePath.string()).c_str());
 }
 
+int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg,std::filesystem::path endpath ){
+    for (const auto &BMP :BmpPaths)
+    {
+        if (lastarg=="copy"){
+            FileCopy(BMP, endpath);
+        }
+    }
+    return (0);
+}
+
+
 int main (int argc, char *argv[])
 {
     std::vector<std::filesystem::path> BmpPaths;
@@ -19,13 +30,14 @@ int main (int argc, char *argv[])
         return (-1);
     BmpPaths = GetBmpPaths(argv[1]);
 
-
-    for (const auto &path : BmpPaths){
+    /*
+    for (const auto &path : BmpPaths) {
         trabaja(path);
-    }
+    }*/
 
-    //Copy a single file:
-    //FileCopy(BmpPaths[0],argv[2]);
+    if (functionality(BmpPaths, static_cast<std::string>(argv[3]), static_cast<std::filesystem::path>(argv[2]))<0){
+        return (-1);
+    }
 
     return (0);
 }
