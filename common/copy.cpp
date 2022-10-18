@@ -12,5 +12,5 @@ int FileCopy(const std::filesystem::path& source, const std::filesystem::path& t
         std::cerr << "Fallo al copiar archivo"<<std::endl;
         return(-1);
     }
-    return (0
+    return (0);
 }
