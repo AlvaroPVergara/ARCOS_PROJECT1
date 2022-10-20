@@ -140,8 +140,8 @@ int BmpAOS::Export(const std::filesystem::path& path) const {
     file.write(reinterpret_cast<char *>(fileHeader.data()), fileHeaderSize);
     file.write(reinterpret_cast<char *>(informationHeader.data()), informationHeaderSize);
 
-    for (u_int y = 0; y < m_height; y++){
-        for (u_int x = 0; x < m_width; x++){
+    for (u_int y = 0; y < m_height; y++) {
+        for (u_int x = 0; x < m_width; x++) {
             unsigned char r = GetColor(x, y).r;
             unsigned char g = GetColor(x, y).g;
             unsigned char b = GetColor(x, y).b;
@@ -154,5 +154,13 @@ int BmpAOS::Export(const std::filesystem::path& path) const {
     file.close();
     std::cout << "File created" << std::endl;
     return (0);
+}
+
+u_int BmpAOS::GetWidth() const {
+    return m_width;
+}
+
+u_int BmpAOS::GetHeight() const {
+    return m_height;
 }
 

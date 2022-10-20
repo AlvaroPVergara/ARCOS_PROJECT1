@@ -24,7 +24,9 @@ public:
     static const u_int fileHeaderSize = 14;
     static const u_int informationHeaderSize = 40;
     int Read(const std::filesystem::path& path);
-    int Export(const std::filesystem::path& path) const;
+    [[nodiscard]] int Export(const std::filesystem::path& path) const;
+    [[nodiscard]] u_int GetWidth() const;
+    [[nodiscard]] u_int GetHeight() const;
 private:
     u_int m_width{};
     u_int m_height{};

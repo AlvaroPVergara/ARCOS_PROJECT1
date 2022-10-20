@@ -3,7 +3,7 @@
 //
 
 #include "../includes/common.h"
-#include "../includes/BmpAOS.h"
+#include "../includes/aos.h"
 
 
 void trabaja(const std::filesystem::path& filePath, char *pathOutDir){
@@ -14,7 +14,11 @@ void trabaja(const std::filesystem::path& filePath, char *pathOutDir){
 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
     std::cout << out_path / filePath.filename() << std::endl;
-    bmp.Export(out_path / filePath.filename());
+    gaussianDiffusion(bmp);
+    if (bmp.Export(out_path / filePath.filename()) < 0)
+    {
+        exit(-1);
+    }
 }
 
 int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg,std::filesystem::path endpath ){
