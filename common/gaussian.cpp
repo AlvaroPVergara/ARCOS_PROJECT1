@@ -5,4 +5,6 @@
 #include "../includes/common.h"
 #include "../includes/BmpAOS.h"
 
-int gaussianDiffusion(void);
+int gaussianDiffusion(BmpAOS bmpFile){
+    return (bmpFile.GetColor(0,0).r);
+}

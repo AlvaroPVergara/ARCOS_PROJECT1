@@ -8,25 +8,25 @@ ColorAOS::ColorAOS()
     : r(0), g(0), b(0)
 {
 }
-ColorAOS::ColorAOS(float r, float g, float b)
+ColorAOS::ColorAOS(u_char r, u_char g, u_char b)
     :r(r), g(g), b(b)
 {
 }
 ColorAOS::~ColorAOS() = default;
 BmpAOS::BmpAOS() = default;
-BmpAOS::BmpAOS(int width, int height)
+BmpAOS::BmpAOS(u_int width, u_int height)
     : m_width(width), m_height(height), m_colors(std::vector<ColorAOS>(width * height))
 {
 }
 BmpAOS::~BmpAOS() = default;
 
 ColorAOS
-BmpAOS::GetColor(int x, int y) const {
+BmpAOS::GetColor(u_int x, u_int y) const {
     return (m_colors[y * m_width + x]);
 }
 
 void
-BmpAOS::SetColor(const ColorAOS &color, int x, int y) {
+BmpAOS::SetColor(const ColorAOS &color, u_int x, u_int y) {
     m_colors[y * m_width + x].r = color.r;
     m_colors[y * m_width + x].g = color.g;
     m_colors[y * m_width + x].b = color.b;
@@ -41,9 +41,9 @@ BmpAOS::Read(const std::filesystem::path& path) {
         return (-1);
     }
     // TODO: OPTIMIZATION leer una sola vez todo el header
-    unsigned char fileHeader[fileHeaderSize];
+    u_char fileHeader[fileHeaderSize];
     file.read(reinterpret_cast<char*>(fileHeader), fileHeaderSize);
-    unsigned char informationHeader[informationHeaderSize];
+    u_char informationHeader[informationHeaderSize];
     file.read(reinterpret_cast<char*>(informationHeader), informationHeaderSize);
     // TODO: PARSER y CHECKER el header
     if (ValidateHeader(fileHeader, informationHeader) < 0) {
@@ -58,28 +58,28 @@ BmpAOS::Read(const std::filesystem::path& path) {
 }
 
 void
-BmpAOS::populateColors(std::ifstream &file, const unsigned char *informationHeader) {
+BmpAOS::populateColors(std::ifstream &file, const u_char *informationHeader) {
     // TODO: should work with filesize;
     // int fileSize = fileHeader[2] + (fileHeader[3] << 8) + (fileHeader[4] << 16) + (fileHeader[5] << 24);
     m_width = informationHeader[4] + (informationHeader[5] << 8) + (informationHeader[6] << 16) + (informationHeader[7] << 24);
     m_height = informationHeader[8] + (informationHeader[9] << 8) + (informationHeader[10] << 16) + (informationHeader[11] << 24);
     m_colors.resize(m_width * m_height);
-    const int paddingAmount = ((4 - (m_width * 3) % 4) % 4);
+    const u_int paddingAmount = ((4 - (m_width * 3) % 4) % 4);
     // TODO: OPTIMIZATION leer toda la fila entera con el width/size o todo el archivo directamente y trabajar sobre la ram.
-    for (int y = 0; y < m_height; y++) {
-        for (int x = 0; x < m_width; x++) {
+    for (u_int y = 0; y < m_height; y++) {
+        for (u_int x = 0; x < m_width; x++) {
             unsigned  char color[3];
             file.read(reinterpret_cast<char *>(color), 3);
-            m_colors[y * m_width + x].r = static_cast<float>(color[2]) / 255.0f;
-            m_colors[y * m_width + x].g = static_cast<float>(color[1]) / 255.0f;
-            m_colors[y * m_width + x].b = static_cast<float>(color[0]) / 255.0f;
+            m_colors[y * m_width + x].r = color[2];
+            m_colors[y * m_width + x].g = color[1];
+            m_colors[y * m_width + x].b = color[0];
         }
         file.ignore(paddingAmount);
     }
 }
 
 int
-BmpAOS::ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader) {
+BmpAOS::ValidateHeader(const u_char *fileHeader, const u_char *informationHeader) {
     //TODO: ELIMINA ESTO
     std::cout << informationHeader << std::endl;
     // TODO: PARSER y CHECKER el header
@@ -90,7 +90,7 @@ BmpAOS::ValidateHeader(const unsigned char *fileHeader, const unsigned char *inf
     return (0);
 }
 
-int BmpAOS::Export(const std::filesystem::path& path) {
+int BmpAOS::Export(const std::filesystem::path& path) const {
     std::ofstream file;
     file.open(path.generic_string(), std::ios::out | std::ios::binary);
     if (!file.is_open()) {
@@ -98,9 +98,9 @@ int BmpAOS::Export(const std::filesystem::path& path) {
         return (-1);
     }
     unsigned char bmpPad[3] = { 0, 0, 0};
-    const int paddingAmmount = ((4 - (m_width * 3) % 4) % 4);
+    const u_int paddingAmmount = ((4 - (m_width * 3) % 4) % 4);
 
-    const int fileSize = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + paddingAmmount * m_width;
+    const u_int fileSize = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + paddingAmmount * m_width;
 
     std::vector<char>fileHeader (fileHeaderSize, 0);
     std::vector<char>informationHeader (informationHeaderSize, 0);
@@ -140,12 +140,11 @@ int BmpAOS::Export(const std::filesystem::path& path) {
     file.write(reinterpret_cast<char *>(fileHeader.data()), fileHeaderSize);
     file.write(reinterpret_cast<char *>(informationHeader.data()), informationHeaderSize);
 
-    for (int y = 0; y < m_height; y++){
-        for (int x = 0; x < m_width; x++){
-            unsigned char r = static_cast<unsigned char>(GetColor(x, y).r * 255.0f);
-            unsigned char g = static_cast<unsigned char>(GetColor(x, y).g * 255.0f);
-            unsigned char b = static_cast<unsigned char>(GetColor(x, y).b * 255.0f);
-
+    for (u_int y = 0; y < m_height; y++){
+        for (u_int x = 0; x < m_width; x++){
+            unsigned char r = GetColor(x, y).r;
+            unsigned char g = GetColor(x, y).g;
+            unsigned char b = GetColor(x, y).b;
             unsigned char color[] = { b, g, r};
 
             file.write(reinterpret_cast<char*>(color), 3);
