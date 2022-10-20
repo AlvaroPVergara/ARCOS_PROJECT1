@@ -103,7 +103,7 @@ int BmpAOS::Export(const std::filesystem::path& path) {
     const int fileSize = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + paddingAmmount * m_width;
 
     std::vector<char>fileHeader (fileHeaderSize, 0);
-    std::vector<char>informationHeader (fileHeaderSize, 0);
+    std::vector<char>informationHeader (informationHeaderSize, 0);
 
 
     //File type
