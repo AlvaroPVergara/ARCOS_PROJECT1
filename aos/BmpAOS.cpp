@@ -33,11 +33,11 @@ BmpAOS::SetColor(const ColorAOS &color, int x, int y) {
 }
 
 int
-BmpAOS::Read(const char *path) {
+BmpAOS::Read(const std::filesystem::path& path) {
     std::ifstream file;
-    file.open(path, std::ios::in | std::ios::binary);
+    file.open(path.generic_string(), std::ios::in | std::ios::binary);
     if (!file.is_open()) {
-        std::cerr << "Fatal: File opening failed after existence check" << std::endl;
+        std::cerr << "Fatal on-read: File opening failed after existence check" << std::endl;
         return (-1);
     }
     // TODO: OPTIMIZATION leer una sola vez todo el header
@@ -90,9 +90,9 @@ BmpAOS::ValidateHeader(const unsigned char *fileHeader, const unsigned char *inf
     return (0);
 }
 
-int BmpAOS::Export(const char *path) {
+int BmpAOS::Export(const std::filesystem::path& path) {
     std::ofstream file;
-    file.open(path, std::ios::out | std::ios::binary);
+    file.open(path.generic_string(), std::ios::out | std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);

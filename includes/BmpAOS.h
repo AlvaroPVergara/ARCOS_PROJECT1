@@ -23,8 +23,8 @@ public:
     void SetColor(const ColorAOS& color, int x, int y);
     static const int fileHeaderSize = 14;
     static const int informationHeaderSize = 40;
-    int Read(const char *path);
-    int Export(const char* path);
+    int Read(const std::filesystem::path& path);
+    int Export(const std::filesystem::path& path);
 private:
     int m_width{};
     int m_height{};
