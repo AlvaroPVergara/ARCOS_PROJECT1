@@ -8,26 +8,28 @@
 #include "common.h"
 
 struct ColorAOS {
-    float r, g, b;
+    u_char r, g, b;
     ColorAOS();
-    ColorAOS(float r, float g, float b);
+    ColorAOS(u_char r, u_char g, u_char b);
     ~ColorAOS();
 };
 
 class BmpAOS {
 public:
     BmpAOS();
-    BmpAOS(int width, int height);
+    BmpAOS(u_int width, u_int height);
     ~BmpAOS();
-    [[nodiscard]] ColorAOS GetColor(int x, int y) const;
-    void SetColor(const ColorAOS& color, int x, int y);
-    static const int fileHeaderSize = 14;
-    static const int informationHeaderSize = 40;
-    int Read(const char *path);
-    int Export(const char* path);
+    [[nodiscard]] ColorAOS GetColor(u_int x, u_int y) const;
+    void SetColor(const ColorAOS& color, u_int x, u_int y);
+    static const u_int fileHeaderSize = 14;
+    static const u_int informationHeaderSize = 40;
+    int Read(const std::filesystem::path& path);
+    [[nodiscard]] int Export(const std::filesystem::path& path) const;
+    [[nodiscard]] u_int GetWidth() const;
+    [[nodiscard]] u_int GetHeight() const;
 private:
-    int m_width{};
-    int m_height{};
+    u_int m_width{};
+    u_int m_height{};
     std::vector<ColorAOS> m_colors;
     static int ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader);
     void populateColors(std::ifstream &file, const unsigned char *informationHeader);
