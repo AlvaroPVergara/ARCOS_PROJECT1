@@ -3,6 +3,8 @@
 //
 
 #include "../includes/common.h"
+#include "../includes/BmpAOS.h"
+
 
 void trabaja(const std::filesystem::path& filePath, char *pathOutDir){
     BmpAOS bmp;

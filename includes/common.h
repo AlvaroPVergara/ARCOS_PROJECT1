@@ -11,7 +11,6 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
-#include "BmpAOS.h"
 
 int ArgParser (int argc, char *argv[]);
 std::vector<std::filesystem::path> GetBmpPaths(std::string path);
