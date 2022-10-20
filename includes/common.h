@@ -12,6 +12,8 @@
 #include <fstream>
 #include <vector>
 
+typedef unsigned char u_char;
+typedef unsigned int u_int;
 int ArgParser (int argc, char *argv[]);
 std::vector<std::filesystem::path> GetBmpPaths(std::string path);
 int FileCopy(const std::filesystem::path& source, const std::filesystem::path& target);

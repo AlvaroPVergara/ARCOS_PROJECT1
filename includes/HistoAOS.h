@@ -7,6 +7,7 @@
 
 #include "common.h"
 
+
 struct N_Colors
 {
     int r = 0;
@@ -25,5 +26,6 @@ public:
     std::vector<ColorAOS> m_colors;
 
 };
+
 
 #endif //ARCOS_PROJECT1_HISTOAOS_H
