@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.23)
 project(ARCOS_PROJECT1)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -8,7 +8,7 @@ add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 
-add_library(common common/common.cpp common/parser.cpp aos/BmpAOS.cpp common/copy.cpp common/gaussian.cpp)
+add_library(common common/common.cpp common/parser.cpp aos/BmpAOS.cpp common/copy.cpp common/gaussian.cpp aos/HistoAOS.cpp)
 
 
 add_library(aos aos/BmpAOS.cpp includes/BmpSOA.h)

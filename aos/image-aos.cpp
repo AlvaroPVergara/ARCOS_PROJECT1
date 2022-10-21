@@ -9,16 +9,14 @@
 void execute_function(const std::filesystem::path& filePath, std::filesystem::path pathOutDir, int(*function)(BmpAOS)){
     BmpAOS bmp;
 
-
     std::string prefix = "new_";
     bmp.Read(filePath);
 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
     std::cout << out_path / filePath.filename() << std::endl;
 
-    //TODO:CHANGE THE WAY THIS IS DONE
     function(bmp);
-    //HistoAOS::histogram(bmp,"D:\\Universidad\\ARCOS_PROJECT1\\test\\in_fold\\sample");
+
     std::cout << "Exportando imagen"<< std::endl;
     if (bmp.Export(out_path / filePath.filename()) < 0)
     {
@@ -26,18 +24,40 @@ void execute_function(const std::filesystem::path& filePath, std::filesystem::pa
     }
 }
 
+void execute_histo(const std::filesystem::path& filePath, std::filesystem::path pathOutDir){
+    BmpAOS bmp;
+    HistoAOS hs;
+
+    std::string prefix = "new_";
+    bmp.Read(filePath);
+
+    std::filesystem::path out_path = std::filesystem::path(pathOutDir);
+    std::filesystem::path new_filename = filePath.filename().replace_extension(".txt");
+    std::string new_path = out_path.generic_string()+"/"+ new_filename.generic_string();
+    std::cout << new_path << std::endl;
+
+    if (hs.histogram(bmp,new_path)<0){
+        std::cerr<< "Failed creating histo" << std::endl;
+    }
+}
+
+
 int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg,std::filesystem::path endpath ){
     for (const auto &path :BmpPaths)
     {
         if (lastarg=="copy"){
             FileCopy(path, endpath);
         }
-        /*
+
         else if (lastarg=="histo"){
-            execute_function(path,endpath, HistoAOS::histogram);
+            execute_histo(path,endpath);
         }
-        */
+
         else if (lastarg=="gauss"){
+            execute_function(path,endpath, gaussianDiffusion);
+        }
+        else if (lastarg=="mono"){
+            //TODO:Change to mono function when created
             execute_function(path,endpath, gaussianDiffusion);
         }
 

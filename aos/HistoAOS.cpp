@@ -10,6 +10,9 @@ void HistoAOS::write(std::string filename)
 {
     std::fstream outfile;
     outfile.open(filename, std::ios_base::out);
+    if (!outfile.is_open()){
+        std::cerr << "Error opening new txt file"<< std::endl;
+    }
 
     for ( int i = 0; i<=255; i++){
         outfile<<i<<":"<<n_colors[i].r<<std::endl;
@@ -30,13 +33,13 @@ void HistoAOS::count_colors()
 
     for ( int i = 0; i<m_width*m_height; i++){
 
-        r = m_colors[i].r * 255.0f;
+        r = m_colors[i].r;
         n_colors[r].r += 1;
 
-        g = m_colors[i].g * 255.0f;
+        g = m_colors[i].g;
         n_colors[g].g += 1;
 
-        b = m_colors[i].b * 255.0f;
+        b = m_colors[i].b;
         n_colors[b].b += 1;
     }
 }
@@ -48,7 +51,6 @@ int HistoAOS::histogram(BmpAOS file, std::string filename)
     m_height = file.GetHeight();
 
     n_colors.resize(256);
-
     count_colors();
     write(filename);
 
