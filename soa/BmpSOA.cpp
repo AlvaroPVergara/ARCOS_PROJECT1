@@ -37,10 +37,10 @@ BmpSOA::BmpSOA(int width, int height)
 }
 
 int
-BmpSOA::Read(const char *path)
+BmpSOA::Read(const std::filesystem::path& path)
 {
     std::ifstream file;
-    file.open(path, std::ios::in | std::ios::binary);
+    file.open(path.generic_string(), std::ios::in | std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
@@ -170,7 +170,7 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             std::vector<u_char> colors = GetColorOnChannels(x, y);
-            unsigned char color[] = { colors[CHAN_R], colors[CHAN_G], colors[CHAN_B]};
+            unsigned char color[] = { colors[CHAN_B] , colors[CHAN_G], colors[CHAN_R]};
 
             file.write(reinterpret_cast<char*>(color), 3);
         }
@@ -184,7 +184,26 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
 std::vector<u_char> BmpSOA::GetColorOnChannels(u_int x, u_int y) const {
     return std::vector<u_char> {
             m_colors.redChannel[x + y * m_width],
-            m_colors.blueChannel[x + y * m_width],
             m_colors.greenChannel[x + y * m_width],
+            m_colors.blueChannel[x + y * m_width]
     };
 }
+
+u_int BmpSOA::GetWidth() {
+    return m_width;
+}
+
+u_int BmpSOA::GetHeight() {
+    return m_height;
+}
+
+ColorSOA BmpSOA::GetMColors() {
+    return m_colors;
+}
+
+void BmpSOA::SetColor(std::vector<u_char> new_colors, u_int x, u_int y) {
+    m_colors.redChannel[x + y * m_width] = new_colors[CHAN_R];
+    m_colors.greenChannel[x + y * m_width] = new_colors[CHAN_G];
+    m_colors.blueChannel[x + y * m_width] = new_colors[CHAN_B];
+}
+

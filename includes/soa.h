@@ -5,4 +5,8 @@
 #ifndef ARCOS_PROJECT1_SOA_H
 #define ARCOS_PROJECT1_SOA_H
 
+#include "BmpSOA.h"
+
+int gaussianTransformation(BmpSOA& bmpImg);
+
 #endif //ARCOS_PROJECT1_SOA_H

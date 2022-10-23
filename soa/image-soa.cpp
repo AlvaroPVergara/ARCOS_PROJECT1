@@ -10,8 +10,7 @@
 void execute_function(const std::filesystem::path& filePath, std::filesystem::path pathOutDir, int(*function)(BmpSOA&)){
     BmpSOA bmp;
     std::string prefix = "new_";
-    //TODO: add read function to BMPSOA
-    //bmp.Read(filePath);
+    bmp.Read(filePath);
 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
     std::cout << out_path / filePath.filename() << std::endl;
@@ -19,11 +18,11 @@ void execute_function(const std::filesystem::path& filePath, std::filesystem::pa
     function(bmp);
 
     std::cout << "Exportando imagen"<< std::endl;
-    /*TODO: add Export function to BMPSOA
+
     if (bmp.Export(out_path / filePath.filename()) < 0)
     {
         exit(-1);
-    }*/
+    }
 }
 
 void execute_histo(const std::filesystem::path& filePath, std::filesystem::path pathOutDir){
@@ -31,8 +30,7 @@ void execute_histo(const std::filesystem::path& filePath, std::filesystem::path 
     HistoSOA hs;
 
     std::string prefix = "new_";
-    //TODO: add read function to BMPSOA
-    //bmp.Read(filePath);
+    bmp.Read(filePath);
 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
     std::filesystem::path new_filename = filePath.filename().replace_extension(".txt");
@@ -55,10 +53,9 @@ int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastar
         else if (lastarg=="histo"){
             execute_histo(path,endpath);
         }
-        /*TODO: apply gaussianSOA function
         else if (lastarg=="gauss"){
             execute_function(path,endpath, gaussianTransformation);
-        }*/
+        }
         else if (lastarg=="mono"){
             execute_function(path,endpath,MonoSOA);
         }

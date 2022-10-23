@@ -8,11 +8,11 @@ add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 
-add_library(common common/common.cpp common/parser.cpp aos/BmpAOS.cpp common/copy.cpp common/pre-gaussian.cpp aos/HistoAOS.cpp)
+add_library(common common/common.cpp common/parser.cpp aos/BmpAOS.cpp common/copy.cpp common/pre-gaussian.cpp)
 
 
-add_library(aos aos/BmpAOS.cpp includes/BmpSOA.h)
-add_library(soa soa/BmpSOA.cpp includes/BmpSOA.h)
+add_library(aos aos/BmpAOS.cpp includes/BmpSOA.h aos/HistoAOS.cpp aos/MonoAOS.cpp)
+add_library(soa soa/BmpSOA.cpp includes/BmpSOA.h soa/HistoSOA.cpp soa/MonoSOA.cpp soa/GaussianSOA.cpp)
 
 add_executable(imgaos aos/image-aos.cpp)
 target_link_libraries(imgaos common aos)
