@@ -8,5 +8,6 @@
 #include "BmpAOS.h"
 
 int gaussianDiffusion(BmpAOS bmpFile);
+int MonoAOS(BmpAOS& file);
 
 #endif //ARCOS_PROJECT1_AOS_H

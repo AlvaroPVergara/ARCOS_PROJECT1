@@ -5,10 +5,10 @@
 #include "../includes/common.h"
 #include "../includes/aos.h"
 #include "../includes/HistoAOS.h"
+#include "MonoAOS.cpp"
 
-void execute_function(const std::filesystem::path& filePath, std::filesystem::path pathOutDir, int(*function)(BmpAOS)){
+void execute_function(const std::filesystem::path& filePath, std::filesystem::path pathOutDir, int(*function)(BmpAOS&)){
     BmpAOS bmp;
-
     std::string prefix = "new_";
     bmp.Read(filePath);
 
@@ -54,11 +54,11 @@ int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastar
         }
 
         else if (lastarg=="gauss"){
-            execute_function(path,endpath, gaussianDiffusion);
+            //execute_function(path,endpath, gaussianDiffusion);
         }
         else if (lastarg=="mono"){
             //TODO:Change to mono function when created
-            execute_function(path,endpath, gaussianDiffusion);
+            execute_function(path,endpath,MonoAOS);
         }
 
     }
