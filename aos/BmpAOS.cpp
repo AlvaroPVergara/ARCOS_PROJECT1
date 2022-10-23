@@ -164,6 +164,6 @@ u_int BmpAOS::GetHeight() const {
     return m_height;
 }
 
-std::vector<ColorAOS> BmpAOS::GetMColors() const{
+std::vector<ColorAOS> &BmpAOS::GetMColors() {
     return m_colors;
 }

@@ -27,7 +27,7 @@ public:
     [[nodiscard]] int Export(const std::filesystem::path& path) const;
     [[nodiscard]] u_int GetWidth() const;
     [[nodiscard]] u_int GetHeight() const;
-    [[nodiscard]] std::vector<ColorAOS> GetMColors() const;
+    std::vector<ColorAOS> &GetMColors() ;
 private:
     u_int m_width{};
     u_int m_height{};
