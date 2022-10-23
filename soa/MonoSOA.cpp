@@ -45,7 +45,7 @@ int MonoSOA(BmpSOA& file)
         //paso 1: Normalización
         ni[0] = m_colors.redChannel[i];
         ni[1] = m_colors.greenChannel[i];
-        ni[2] = m_colors.blueChannel[i]/;
+        ni[2] = m_colors.blueChannel[i];
 
         //paso 2: Transformacion a intensidad lineal
         LinearTransformation(ni,ci);
