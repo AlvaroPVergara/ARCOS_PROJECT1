@@ -31,7 +31,7 @@ public:
     int Export(const std::filesystem::path& path) const;
     u_int GetWidth();
     u_int GetHeight();
-    ColorSOA GetMColors();
+    ColorSOA &GetMColors();
     [[nodiscard]] std::vector<u_char> GetColorOnChannels(u_int x, u_int y) const;
     void SetColor(std::vector<u_char> new_colors, u_int x, u_int y);
 private:

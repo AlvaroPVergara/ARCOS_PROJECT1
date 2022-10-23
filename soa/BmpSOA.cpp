@@ -197,7 +197,7 @@ u_int BmpSOA::GetHeight() {
     return m_height;
 }
 
-ColorSOA BmpSOA::GetMColors() {
+ColorSOA &BmpSOA::GetMColors() {
     return m_colors;
 }
 

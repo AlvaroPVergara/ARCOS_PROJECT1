@@ -3,7 +3,6 @@
 //
 #include "../includes/common.h"
 #include "../includes/BmpSOA.h"
-#include "../includes/MonoSOA.h"
 #include <math.h>
 
 void LinearTransformation(float ni[3], float ci[3])
@@ -32,11 +31,10 @@ void Gamma(float gi[3], float cl)
 
 int MonoSOA(BmpSOA& file)
 {
-    ColorSOA m_colors;
+    ColorSOA& m_colors = file.GetMColors();
     int m_width , m_height;
     float cl;
     float ni[3],ci[3], gi[3];
-    m_colors = file.GetMColors();
     m_width = file.GetWidth();
     m_height = file.GetHeight();
 
