@@ -57,7 +57,6 @@ int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastar
             execute_function(path,endpath, gaussianTransformation);
         }
         else if (lastarg=="mono"){
-            //TODO:Change to mono function when created
             execute_function(path,endpath,MonoAOS);
         }
 
