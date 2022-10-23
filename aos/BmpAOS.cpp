@@ -50,6 +50,9 @@ BmpAOS::Read(const std::filesystem::path& path) {
         file.close();
         return (-1);
     }
+    int offset = fileHeader[10] + (fileHeader[11] << 8) + (fileHeader[12] << 16) + (fileHeader[13] << 24);
+    std::cout << "Offset is: " << offset << std::endl;
+    file.seekg(offset, std::ios_base::beg);
     populateColors(file, informationHeader);
     file.close();
     // TODO: Maybe eliminar esto
@@ -80,11 +83,31 @@ BmpAOS::populateColors(std::ifstream &file, const u_char *informationHeader) {
 
 int
 BmpAOS::ValidateHeader(const u_char *fileHeader, const u_char *informationHeader) {
-    //TODO: ELIMINA ESTO
-    std::cout << informationHeader << std::endl;
+
     // TODO: PARSER y CHECKER el header
     if (fileHeader[0] != 'B' || fileHeader[1] != 'M'){
         std::cerr << "El archivo no es un bitmap!" << std::endl;
+        return (-1);
+    }
+    //TODO: CHECK IF FILESIZE IS CORRECT;
+    m_fileSize = fileHeader[2] + (fileHeader[3] << 8) + (fileHeader[4] << 16) + (fileHeader[5] << 24);
+
+    int num_plane =  informationHeader[12] + (informationHeader[13] << 8);
+    if (num_plane != 1)
+    {
+        std::cerr << "El numero de planos del archivo es incorrecto!" << std::endl;
+        return (-1);
+    }
+    int pixel_size = informationHeader[14] + (informationHeader[15] << 8);
+    if (pixel_size != 24)
+    {
+        std::cerr << "El tamaño del pixel es incorrecto!" << std::endl;
+        return (-1);
+    }
+    int compression = informationHeader[16] + (informationHeader[17] << 8) + (informationHeader[18] << 16) + (informationHeader[19] << 24);
+    if (compression != 0)
+    {
+        std::cerr << "El archivo contiene compresión, por lo que no puede ser procesado!" << std::endl;
         return (-1);
     }
     return (0);

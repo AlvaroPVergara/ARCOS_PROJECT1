@@ -27,12 +27,13 @@ public:
     [[nodiscard]] int Export(const std::filesystem::path& path) const;
     [[nodiscard]] u_int GetWidth() const;
     [[nodiscard]] u_int GetHeight() const;
-    std::vector<ColorAOS> &GetMColors() ;
+    std::vector<ColorAOS> &GetMColors();
 private:
     u_int m_width{};
     u_int m_height{};
+    u_int m_fileSize;
     std::vector<ColorAOS> m_colors;
-    static int ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader);
+    int ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader);
     void populateColors(std::ifstream &file, const unsigned char *informationHeader);
 };
 
