@@ -7,7 +7,7 @@
 #define ARCOS_PROJECT1_AOS_H
 #include "BmpAOS.h"
 
-int gaussianDiffusion(BmpAOS bmpFile);
+int gaussianTransformation(BmpAOS& bmpImg);
 int MonoAOS(BmpAOS& file);
 
 #endif //ARCOS_PROJECT1_AOS_H

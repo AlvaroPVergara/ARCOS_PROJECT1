@@ -54,7 +54,7 @@ int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastar
         }
 
         else if (lastarg=="gauss"){
-            //execute_function(path,endpath, gaussianDiffusion);
+            execute_function(path,endpath, gaussianTransformation);
         }
         else if (lastarg=="mono"){
             //TODO:Change to mono function when created
@@ -65,10 +65,8 @@ int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastar
     return (0);
 }
 
-
 int main (int argc, char *argv[])
 {
-
     std::vector<std::filesystem::path> BmpPaths;
     if (ArgParser(argc, argv) < 0)
         return (-1);
