@@ -33,7 +33,7 @@ void execute_histo(const std::filesystem::path& filePath, std::filesystem::path 
 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
     std::filesystem::path new_filename = filePath.filename().replace_extension(".txt");
-    std::string new_path = out_path.generic_string()+"/"+ new_filename.generic_string();
+    std::string new_path = out_path.generic_string()+"/HistoAOS-"+ new_filename.generic_string();
     std::cout << new_path << std::endl;
 
     if (hs.histogram(bmp,new_path)<0){

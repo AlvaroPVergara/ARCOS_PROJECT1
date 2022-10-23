@@ -28,19 +28,20 @@ void HistoSOA::count_colors()
     int r,g,b;
 
     for ( int i = 0; i<m_width*m_height; i++){
-        r = m_colors.redChannel[i] * 255.0f;
+        r = m_colors.redChannel[i];
         n_colors.r[r] += 1;
 
-        g = m_colors.greenChannel[i] * 255.0f;
+        g = m_colors.greenChannel[i];
         n_colors.g[g] += 1;
 
-        b = m_colors.blueChannel[i] * 255.0f;
+        b = m_colors.blueChannel[i];
         n_colors.b[b] += 1;
     }
 }
 
 int HistoSOA::histogram(BmpSOA file, std::string filename)
 {
+    std::cout<<"1"<<std::endl;
     m_colors = file.GetMColors();
     m_width = file.GetWidth();
     m_height = file.GetHeight();
@@ -48,9 +49,11 @@ int HistoSOA::histogram(BmpSOA file, std::string filename)
     n_colors.r.resize(256);
     n_colors.b.resize(256);
     n_colors.g.resize(256);
-
+    std::cout<<"2"<<std::endl;
     count_colors();
+    std::cout<<"3"<<std::endl;
     write(filename);
+    std::cout<<"4"<<std::endl;
 
     return 0;
 }
