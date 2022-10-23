@@ -5,10 +5,11 @@
 #include "../includes/common.h"
 #include "../includes/BmpAOS.h"
 
+
 void apply_mascara(BmpAOS& bmpFile, const int mascara[5][5], int x, int y) {
-    float new_color_r;
-    float new_color_g;
-    float new_color_b;
+    float new_color_r=0;
+    float new_color_g=0;
+    float new_color_b=0;
     float pixel_color_r;
     float pixel_color_g;
     float pixel_color_b;
@@ -39,8 +40,9 @@ void apply_mascara(BmpAOS& bmpFile, const int mascara[5][5], int x, int y) {
     new_color_g = new_color_g / 273;
     new_color_b = new_color_b / 273;
 
+    /*
     std::cout << "Red: " << static_cast <int>(static_cast<u_char> (new_color_r * 255.0f)) << " Green: " << static_cast <int>(static_cast<u_char> (new_color_g * 255.0f))
-        << " Blue: " << static_cast <int>(static_cast<u_char> (new_color_b * 255.0f)) << std::endl;
+        << " Blue: " << static_cast <int>(static_cast<u_char> (new_color_b * 255.0f)) << std::endl;*/
 
     ColorAOS nc = ColorAOS(static_cast<u_char> (new_color_r * 255.0f),
                            static_cast<u_char> (new_color_g * 255.0f),
@@ -48,9 +50,9 @@ void apply_mascara(BmpAOS& bmpFile, const int mascara[5][5], int x, int y) {
     bmpFile.SetColor(nc, x, y);
 }
 
-int gaussianDiffusion(BmpAOS& bmpFile){
+int gaussianDiffusion(BmpAOS bmpFile){
     ColorAOS new_color;
-
+    std::cout << "Difuminando" <<std::endl;
     const int mascara[5][5] = {
              {1, 4,  7,  4,  1},
              {4, 16, 26, 16, 4},
@@ -61,7 +63,7 @@ int gaussianDiffusion(BmpAOS& bmpFile){
 
     for (int y = 0; y < static_cast<int>(bmpFile.GetHeight()); y++) {
         for (int x = 0; x < static_cast<int>(bmpFile.GetWidth()); x++) {
-            std::cout << "Applying mascara to x: " << x << " y: " << y << std::endl;
+            /*std::cout << "Applying mascara to x: " << x << " y: " << y << std::endl;*/
             apply_mascara(bmpFile, mascara, x, y);
         }
     }
