@@ -2,7 +2,7 @@
 // Created by Joan carlos Naftanaila on 10/17/22.
 //
 
-// TODO: BmpAOS and BmpSOA share m_height and width members and Read function (maybe write too) and constants, only changes are on populate functionality.
+// TODO: BmpAOS and BmpSOA share m_height and width members and Read function (maybe write too) and constants, only changes are on populate Functionality.
 
 
 #include <utility>

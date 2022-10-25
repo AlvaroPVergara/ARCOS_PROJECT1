@@ -22,15 +22,15 @@ void execute_function(const std::filesystem::path& filePath, std::filesystem::pa
     }
 }
 
-void execute_histo(const std::filesystem::path& filePath, std::filesystem::path pathOutDir){
+void ExecuteHisto(const std::filesystem::path& file_path, std::filesystem::path path_out_dir){
     BmpSOA bmp;
     HistoSOA hs;
 
     std::string prefix = "new_";
-    bmp.Read(filePath);
+    bmp.Read(file_path);
 
-    std::filesystem::path out_path = std::filesystem::path(pathOutDir);
-    std::filesystem::path new_filename = filePath.filename().replace_extension(".txt");
+    std::filesystem::path out_path = std::filesystem::path(path_out_dir);
+    std::filesystem::path new_filename = file_path.filename().replace_extension(".txt");
     std::string new_path = out_path.generic_string()+"/HistoSOA-"+ new_filename.generic_string();
 
     if (hs.histogram(bmp,new_path)<0){
@@ -39,7 +39,7 @@ void execute_histo(const std::filesystem::path& filePath, std::filesystem::path 
 }
 
 
-int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg,std::filesystem::path endpath ){
+int Functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg, std::filesystem::path endpath ){
     for (const auto &path :BmpPaths)
     {
         if (lastarg=="copy"){
@@ -47,7 +47,7 @@ int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastar
         }
 
         else if (lastarg=="histo"){
-            execute_histo(path,endpath);
+            ExecuteHisto(path, endpath);
         }
         else if (lastarg=="gauss"){
             execute_function(path,endpath, gaussianTransformation);
