@@ -33,8 +33,10 @@ private:
     u_int m_height{};
     u_int m_fileSize;
     std::vector<ColorAOS> m_colors;
-    int ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader);
-    void populateColors(std::ifstream &file, const unsigned char *informationHeader);
+    static int ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader);
+    void PopulateColors(std::ifstream &file, const unsigned char *informationHeader);
+    void FillHeader(const u_int fileSize, std::vector<char> &fileHeader, std::vector<char> &informationHeader) const;
+    void WriteColors(std::ofstream &file, unsigned char *bmpPad, const u_int paddingAmmount) const;
 };
 
 #endif //ARCOS_PROJECT1_BMPAOS_H
