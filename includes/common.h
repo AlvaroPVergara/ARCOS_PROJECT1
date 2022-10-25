@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
+#include <math.h>
 
 typedef unsigned char u_char;
 typedef unsigned int u_int;
@@ -18,5 +19,7 @@ int ArgParser (int argc, char *argv[]);
 std::vector<std::filesystem::path> GetBmpPaths(std::string path);
 int FileCopy(const std::filesystem::path& source, const std::filesystem::path& target);
 int functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg,std::filesystem::path endpath );
+void LinearTransformation(float ni[3], float ci[3]);
+void Gamma(float gi[3], float cl);
 
 #endif //ARCOS_PROJECT1_COMMON_H
