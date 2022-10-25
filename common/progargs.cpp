@@ -3,7 +3,9 @@
 //
 #include "../includes/common.h"
 
-void print_format()
+/*The printFormat function only prints the format of the input in case the user
+ * uses it wrong*/
+void PrintFormat()
 {
     std::cout << "\timage in_path out_path oper" << std::endl;
     std::cout << "\t\toperation: copy, histo, mono, gauss" << std::endl;
@@ -11,7 +13,7 @@ void print_format()
 
 
 //This function checks that the 3º argument given is one of the four needed for the program
-int check_last_arg(const std::string& lastarg)
+int CheckLastArg(const std::string& lastarg)
 {
     if (lastarg == "copy" or lastarg == "histo" or lastarg == "mono" or lastarg == "gauss")
     {
@@ -19,17 +21,17 @@ int check_last_arg(const std::string& lastarg)
     }
     else{
         std::cout << "Unexpected Operation: " << lastarg << std::endl;
-        print_format();
+        PrintFormat();
         return (-1);
     }
 }
 
 
-//This function will check if a certain directory exists
-//directory is the path to the directory to check
-//type equals 0 if the directory is for input and equals 1 if
-//the directory is for output
-int check_dir(const std::string& directory, int type)
+/*This function will check if a certain directory exists
+ * directory is the path to the directory to check
+ * type equals 0 if the directory is for input and equals 1 if
+ * the directory is for output*/
+int checkDir(const std::string& directory, int type)
 {
     if (!std::filesystem::exists(directory))
     {
@@ -44,31 +46,31 @@ int check_dir(const std::string& directory, int type)
         {
             std::cout << "Output directory ["<< directory <<"] does not exist" << std::endl;
         }
-        print_format();
+        PrintFormat();
         return(-1);
     }
     return(0);
 }
 
 
-
+/*ArgParser uses all functions above to check all the input arguments*/
 int ArgParser (int argc, char *argv[])
 {
     if (argc != 4)
     {
         std::cout << "Wrong format:" << std::endl;
-        print_format();
+        PrintFormat();
         return (-1);
     }
-    if (check_last_arg(argv[3])<0)
+    if (CheckLastArg(argv[3]) < 0)
     {
         return (-1);
     }
-    if (check_dir(argv[1],0)<0)
+    if (checkDir(argv[1], 0) < 0)
     {
         return (-1);
     }
-    if (check_dir(argv[2],1)<0)
+    if (checkDir(argv[2], 1) < 0)
     {
         return (-1);
     }

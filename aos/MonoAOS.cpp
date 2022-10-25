@@ -4,8 +4,6 @@
 #include "../includes/common.h"
 #include "../includes/BmpAOS.h"
 
-
-
 int MonoAOS(BmpAOS& file)
 {
     int m_width , m_height;

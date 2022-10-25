@@ -13,7 +13,7 @@ int main (int argc, char *argv[])
         std::cerr << "No hay ninguna imagen bmp en el directorio de entrada" << std::endl;
     }
 
-    if (functionality(BmpPaths, static_cast<std::string>(argv[3]), static_cast<std::filesystem::path>(argv[2]))<0){
+    if (Functionality(BmpPaths, static_cast<std::string>(argv[3]), static_cast<std::filesystem::path>(argv[2]))<0){
         return (-1);
     }
     return (0);
