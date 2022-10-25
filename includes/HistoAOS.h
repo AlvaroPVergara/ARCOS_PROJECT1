@@ -8,7 +8,7 @@
 #include "common.h"
 
 
-struct N_Colors
+struct NumberColors
 {
     int r = 0;
     int g = 0;
@@ -17,14 +17,13 @@ struct N_Colors
 
 class HistoAOS {
 public:
-    void write(std::string filename);
-    void count_colors();
-    int histogram(BmpAOS file, std::string filename);
-    std::vector<N_Colors> n_colors;
+    void WriteHistogram(std::string filename);
+    void CountColors();
+    int Histogram(BmpAOS file, std::string filename);
+    std::vector<NumberColors> n_colors;
     int m_width{};
     int m_height{};
     std::vector<ColorAOS> m_colors;
-
 };
 
 
