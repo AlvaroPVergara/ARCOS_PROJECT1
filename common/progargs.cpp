@@ -33,17 +33,16 @@ int check_dir(const std::string& directory, int type)
 {
     if (!std::filesystem::exists(directory))
     {
+        std::cout << "Input path: "<< directory << std::endl;
+        std::cout << "Output path: "<< directory << std::endl;
+
         if(type==0)
         {
-            std::cout << "Input path: inx" << std::endl;
-            std::cout << "Output path: out" << std::endl;
-            std::cout << "Cannot open directory [inx]" << std::endl;
+            std::cout << "Cannot open directory ["<< directory <<"]" << std::endl;
         }
         else if(type==1)
         {
-            std::cout << "Input path: indir" << std::endl;
-            std::cout << "Output path: outx" << std::endl;
-            std::cout << "Output directory [outx] does not exist" << std::endl;
+            std::cout << "Output directory ["<< directory <<"] does not exist" << std::endl;
         }
         print_format();
         return(-1);
@@ -73,6 +72,7 @@ int ArgParser (int argc, char *argv[])
     {
         return (-1);
     }
-    // Seguir parseando
+    std::cout << "Input path: "<< argv[1] << std::endl;
+    std::cout << "Output path: "<< argv[2] << std::endl;
     return (0);
 }

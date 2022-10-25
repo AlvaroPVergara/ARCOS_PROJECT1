@@ -10,11 +10,7 @@ std::vector<std::filesystem::path> GetBmpPaths(std::string path){
     {
         if (entry.path().extension() == ".bmp")
         {
-            std::cout << "Path found! " << entry.path().string() << std::endl;
             bmpFiles.push_back(entry.path());
-        }
-        else{
-            std::cout << "Archivo " << entry.path() << " no tiene extension .bmp" << std::endl;
         }
     }
     return (bmpFiles);

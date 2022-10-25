@@ -40,23 +40,18 @@ BmpAOS::Read(const std::filesystem::path& path) {
         std::cerr << "Fatal on-read: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    // TODO: OPTIMIZATION leer una sola vez todo el header
     u_char fileHeader[fileHeaderSize];
     file.read(reinterpret_cast<char*>(fileHeader), fileHeaderSize);
     u_char informationHeader[informationHeaderSize];
     file.read(reinterpret_cast<char*>(informationHeader), informationHeaderSize);
-    // TODO: PARSER y CHECKER el header
     if (ValidateHeader(fileHeader, informationHeader) < 0) {
         file.close();
         return (-1);
     }
     int offset = fileHeader[10] + (fileHeader[11] << 8) + (fileHeader[12] << 16) + (fileHeader[13] << 24);
-    std::cout << "Offset is: " << offset << std::endl;
     file.seekg(offset, std::ios_base::beg);
     populateColors(file, informationHeader);
     file.close();
-    // TODO: Maybe eliminar esto
-    std::cout << "File leido!" << std::endl;
     return (0);
 }
 
@@ -175,7 +170,6 @@ int BmpAOS::Export(const std::filesystem::path& path) const {
         file.write(reinterpret_cast<char *>(bmpPad), paddingAmmount);
     }
     file.close();
-    std::cout << "File created" << std::endl;
     return (0);
 }
 

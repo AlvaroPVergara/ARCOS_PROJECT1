@@ -56,12 +56,9 @@ BmpSOA::Read(const std::filesystem::path& path)
         return (-1);
     }
     int offset = fileHeader[10] + (fileHeader[11] << 8) + (fileHeader[12] << 16) + (fileHeader[13] << 24);
-    std::cout << "Offset is: " << offset << std::endl;
     file.seekg(offset, std::ios_base::beg);
     populateColors(file, informationHeader);
     file.close();
-    // TODO: Maybe eliminar esto
-    std::cout << "File leido!" << std::endl;
     return (0);
 }
 
@@ -177,7 +174,6 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
         file.write(reinterpret_cast<char *>(bmpPad), paddingAmmount);
     }
     file.close();
-    std::cout << "File created" << std::endl;
     return (0);
 }
 

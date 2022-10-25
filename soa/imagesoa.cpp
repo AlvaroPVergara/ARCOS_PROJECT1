@@ -13,11 +13,8 @@ void execute_function(const std::filesystem::path& filePath, std::filesystem::pa
     bmp.Read(filePath);
 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
-    std::cout << out_path / filePath.filename() << std::endl;
 
     function(bmp);
-
-    std::cout << "Exportando imagen"<< std::endl;
 
     if (bmp.Export(out_path / filePath.filename()) < 0)
     {
@@ -35,7 +32,6 @@ void execute_histo(const std::filesystem::path& filePath, std::filesystem::path 
     std::filesystem::path out_path = std::filesystem::path(pathOutDir);
     std::filesystem::path new_filename = filePath.filename().replace_extension(".txt");
     std::string new_path = out_path.generic_string()+"/HistoSOA-"+ new_filename.generic_string();
-    std::cout << new_path << std::endl;
 
     if (hs.histogram(bmp,new_path)<0){
         std::cerr<< "Failed creating histo" << std::endl;
