@@ -4,7 +4,6 @@
 #include "../includes/common.h"
 #include "../includes/BmpSOA.h"
 
-
 int MonoSOA(BmpSOA& file)
 {
     ColorSOA& m_colors = file.GetMColors();
