@@ -8,7 +8,7 @@
 #include "common.h"
 #include "BmpSOA.h"
 
-struct NumberColors
+struct NumberColorsSOA
 {
     std::vector<int> r;
     std::vector<int> g;
@@ -17,10 +17,10 @@ struct NumberColors
 
 class HistoSOA {
 public:
-    void WriteHistogram(std::string filename);
-    void CountColors();
-    int Histogram(BmpSOA file, std::string filename);
-    NumberColors n_colors;
+    long long int WriteHistogram(std::string filename);
+    long long int CountColors();
+    std::vector<long long int> Histogram(BmpSOA file, std::string filename);
+    NumberColorsSOA n_colors;
     int m_width{};
     int m_height{};
     ColorSOA m_colors;

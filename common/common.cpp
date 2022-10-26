@@ -3,6 +3,8 @@
 //
 
 #include "../includes/common.h"
+#include "../includes/aos.h"
+#include "../includes/soa.h"
 
 /*The GetBmpPaths function takes a path from a directory, then opens it and
  * stores all the paths from its .bmp files into a vector that returns*/
@@ -42,4 +44,17 @@ void Gamma(float gi[3], float cl)
         }
     }
 }
+
+void
+OutputStatistics(const std::filesystem::path &path, std::vector<long long int> times, std::string command) {
+    long long int total_time = times[0] + times[1] + times[2];
+
+    std::cout << "File: \"" << path.string() << "\"(time: "<< total_time << ")" << std::endl;
+    std::cout << "\tLoad time: " << times[0] << std::endl;
+    // Capitalize first letter as in the pdf.
+    command[0] = toupper(command[0]);
+    std::cout << "\t" << command << " time: " << times[1] << std::endl;
+    std::cout << "\tStore time: "<< times[2] << std::endl;
+}
+
 

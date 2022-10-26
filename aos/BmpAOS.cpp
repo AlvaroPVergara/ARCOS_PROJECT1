@@ -136,7 +136,8 @@ BmpAOS::ValidateHeader(const u_char *file_header, const u_char *information_head
  * attributes of our bmp and then dump our color data on the file.
  */
 
-long long int BmpAOS::Export(const std::filesystem::path& path) const {
+long long int
+BmpAOS::Export(const std::filesystem::path& path) const {
     auto start_time = std::chrono::high_resolution_clock::now();
     std::ofstream file;
     file.open(path.generic_string(), std::ios::out | std::ios::binary);

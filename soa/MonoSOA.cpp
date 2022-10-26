@@ -4,8 +4,9 @@
 #include "../includes/common.h"
 #include "../includes/BmpSOA.h"
 
-int MonoSOA(BmpSOA& file)
+long long int MonoSOA(BmpSOA& file)
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     ColorSOA& m_colors = file.GetMColors();
     int m_width , m_height;
     float cl;
@@ -31,5 +32,6 @@ int MonoSOA(BmpSOA& file)
         m_colors.greenChannel[i] = gi[1];
         m_colors.blueChannel[i] = gi[2];
     }
-    return 0;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }

@@ -6,7 +6,8 @@
 #include "../includes/BmpAOS.h"
 
 
-void    ApplyTransformation(BmpAOS &bmp_img, const std::vector<std::vector<float>> &matrix, int x, int y)
+void
+ApplyTransformation(BmpAOS &bmp_img, const std::vector<std::vector<float>> &matrix, int x, int y)
 {
     //std::vector<std::vector<ColorAOS>>   pixelKernel[5][5];
     float result[3] = {0.0f, 0.0f, 0.0f};
@@ -35,8 +36,10 @@ void    ApplyTransformation(BmpAOS &bmp_img, const std::vector<std::vector<float
                                     ), x, y);
 }
 
-long long int GaussianTransformation(BmpAOS& bmp_img)
+long long int
+GaussianTransformation(BmpAOS& bmp_img)
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     const std::vector<std::vector<float>> matrix = {
             {1.0f,4.0f,7.0f,4.0f,1.0f},
             {4.0f,16.0f,26.0f,16.0f,4.0f},
@@ -44,7 +47,6 @@ long long int GaussianTransformation(BmpAOS& bmp_img)
             {4.0f,16.0f,26.0f,16.0f,4.0f},
             {1.0f,4.0f,7.0f,4.0f,1.0f}
     };
-    auto start_time = std::chrono::high_resolution_clock::now();
     for (int y = 0; y < static_cast<int>(bmp_img.GetHeight()); y++)
     {
         for (int x = 0; x < static_cast<int>(bmp_img.GetWidth()); x++)

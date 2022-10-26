@@ -5,18 +5,13 @@
 #include "../includes/common.h"
 #include "../includes/BmpSOA.h"
 
-void    applyTransformation(BmpSOA &bmp_img, int x, int y)
+void
+ApplyTransformation(BmpSOA &bmp_img, const std::vector<std::vector<float>> &matrix, int x, int y)
 {
     //std::vector<std::vector<ColorAOS>>   pixelKernel[5][5];
     float result[3] = {0.0f, 0.0f, 0.0f};
     std::vector<u_char> buff_pixel;
-    const std::vector<std::vector<float>> matrix = {
-            {1.0f,4.0f,7.0f,4.0f,1.0f},
-            {4.0f,16.0f,26.0f,16.0f,4.0f},
-            {7.0f,26.0f,41.0f,26.0f,7.0f},
-            {4.0f,16.0f,26.0f,16.0f,4.0f},
-            {1.0f,4.0f,7.0f,4.0f,1.0f}
-    };
+
     for (int i = -2; i < 3; ++i) {
         for (int j = -2; j < 3; ++j) {
 
@@ -44,14 +39,24 @@ void    applyTransformation(BmpSOA &bmp_img, int x, int y)
     , x, y);
 }
 
-int gaussianTransformation(BmpSOA& bmp_img)
+long long int
+GaussianTransformation(BmpSOA& bmp_img)
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    const std::vector<std::vector<float>> matrix = {
+            {1.0f,4.0f,7.0f,4.0f,1.0f},
+            {4.0f,16.0f,26.0f,16.0f,4.0f},
+            {7.0f,26.0f,41.0f,26.0f,7.0f},
+            {4.0f,16.0f,26.0f,16.0f,4.0f},
+            {1.0f,4.0f,7.0f,4.0f,1.0f}
+    };
     for (int y = 0; y < static_cast<int>(bmp_img.GetHeight()); y++)
     {
         for (int x = 0; x < static_cast<int>(bmp_img.GetWidth()); x++)
         {
-            applyTransformation(bmp_img, x, y);
+            ApplyTransformation(bmp_img, matrix, x, y);
         }
     }
-    return (0);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }

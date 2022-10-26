@@ -7,8 +7,9 @@
 
 /*WriteHistogram gets the number of times each color appears with the stucture of arrays n_colors
  * and print it on a txt file*/
-void HistoSOA::WriteHistogram(std::string filename)
+long long int HistoSOA::WriteHistogram(std::string filename)
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     //We open only to write on it
     std::ofstream outfile;
 
@@ -31,11 +32,14 @@ void HistoSOA::WriteHistogram(std::string filename)
     for ( int i = 0; i<=255; i++){
         outfile<<i<<":"<<n_colors.b[i]<<std::endl;
     }
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }
 
-void HistoSOA::CountColors()
+long long int HistoSOA::CountColors()
 {
     int r,g,b;
+    auto start_time = std::chrono::high_resolution_clock::now();
 
     /*We read the color of each pixel one by one and count it in that position of the channel in n_colors
        *for example, the count of the color 255 of r chanel is saved on n_colors.r[255]
@@ -50,9 +54,11 @@ void HistoSOA::CountColors()
         b = m_colors.blueChannel[i];
         n_colors.b[b] += 1;
     }
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }
 
-int HistoSOA::Histogram(BmpSOA file, std::string filename)
+std::vector<long long int> HistoSOA::Histogram(BmpSOA file, std::string filename)
 {
     //We get the structure of arrays of the colors and the with and height of the image
     m_colors = file.GetMColors();
@@ -64,8 +70,11 @@ int HistoSOA::Histogram(BmpSOA file, std::string filename)
     n_colors.b.resize(256);
     n_colors.g.resize(256);
 
-    CountColors();
-    WriteHistogram(filename);
+    long long int func_time = CountColors();
+    long long int export_time = WriteHistogram(filename);
 
-    return 0;
+    return {
+            func_time,
+            export_time
+    };
 }

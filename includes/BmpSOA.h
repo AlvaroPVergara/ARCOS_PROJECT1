@@ -27,8 +27,9 @@ public:
     ~BmpSOA();
     static const int fileHeaderSize = 14;
     static const int informationHeaderSize = 40;
-    int Read(const std::filesystem::path& path);
-    int Export(const std::filesystem::path& path) const;
+    static const int emptyFlag = 0;
+    long long int Read(const std::filesystem::path& path);
+    long long int Export(const std::filesystem::path& path) const;
     u_int GetWidth();
     u_int GetHeight();
     ColorSOA &GetMColors();

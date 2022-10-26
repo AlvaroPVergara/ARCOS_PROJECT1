@@ -7,7 +7,7 @@
 #include "../includes/HistoAOS.h"
 
 //WriteHistogram gets the number of times each color appears with the array of stuctures n_colors and print it on a txt file
-long long int HistoAOS::write(std::string filename)
+long long int HistoAOS::WriteHistogram(std::string filename)
 {
     auto start_time = std::chrono::high_resolution_clock::now();
     //We open only to write on it

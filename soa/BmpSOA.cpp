@@ -48,18 +48,19 @@ BmpSOA::BmpSOA(int width, int height)
  * Main read function. We need open the file, check the headers and then fill our Bmp object with the pixel
  * colors on the image.
  * */
-int
+long long int
 BmpSOA::Read(const std::filesystem::path& path)
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     std::ifstream file;
     file.open(path.generic_string(), std::ios::in | std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    unsigned char file_header[fileHeaderSize];
+    u_char file_header[fileHeaderSize];
     file.read(reinterpret_cast<char*>(file_header), fileHeaderSize);
-    unsigned char information_header[informationHeaderSize];
+    u_char information_header[informationHeaderSize];
     file.read(reinterpret_cast<char*>(information_header), informationHeaderSize);
     if (ValidateHeader(file_header, information_header) < 0) {
         file.close();
@@ -70,8 +71,10 @@ BmpSOA::Read(const std::filesystem::path& path)
     file.seekg(offset, std::ios_base::beg);
     populateColors(file, information_header);
     file.close();
-    return (0);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }
+
 /*
  * PopulateColors just reads from the memory the pixel color data and fills the m_colors member with the information
  * for later processing. For sake of simplicity we store just the bytes as they are.
@@ -79,14 +82,14 @@ BmpSOA::Read(const std::filesystem::path& path)
  * SOA: We iterate over each channel array of our m_colors Structure of Arrays and populate each pixel with its information.
  */
 void
-BmpSOA::populateColors(std::ifstream &file, const unsigned char *information_header) {
+BmpSOA::populateColors(std::ifstream &file, const u_char *information_header) {
     m_width = information_header[4] + (information_header[5] << 8) + (information_header[6] << 16) + (information_header[7] << 24);
     m_height = information_header[8] + (information_header[9] << 8) + (information_header[10] << 16) + (information_header[11] << 24);
     m_colors.ResizeMembers(m_width * m_height);
     const u_int padding_amount = ((4 - (m_width * 3) % 4) % 4);
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
-            unsigned  char color[3];
+            u_char color[3];
             file.read(reinterpret_cast<char *>(color), 3);
             m_colors.redChannel[y * m_width + x] = color[2];
             m_colors.greenChannel[y * m_width + x] = color[1];
@@ -101,7 +104,7 @@ BmpSOA::populateColors(std::ifstream &file, const unsigned char *information_hea
  */
 
 int
-BmpSOA::ValidateHeader(const unsigned char *file_header, const unsigned char *information_header) {
+BmpSOA::ValidateHeader(const u_char *file_header, const u_char *information_header) {
     if (file_header[0] != 'B' || file_header[1] != 'M'){
         std::cerr << "El archivo no es un bitmap!" << std::endl;
         return (-1);
@@ -132,14 +135,16 @@ BmpSOA::ValidateHeader(const unsigned char *file_header, const unsigned char *in
  * attributes of our bmp and then dump our color data on the file.
  */
 
-int BmpSOA::Export(const std::filesystem::path& path) const {
+long long int
+BmpSOA::Export(const std::filesystem::path& path) const {
+    auto start_time = std::chrono::high_resolution_clock::now();
     std::ofstream file;
     file.open(path.generic_string(), std::ios::out | std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    unsigned char bmp_pad[3] = {0, 0, 0};
+    u_char bmp_pad[3] = {0, 0, 0};
     const u_int padding_ammount = ((4 - (m_width * 3) % 4) % 4);
     const u_int file_size = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + padding_ammount * m_width;
     std::vector<char>file_header (fileHeaderSize, 0);
@@ -149,7 +154,8 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
     file.write(reinterpret_cast<char *>(information_header.data()), informationHeaderSize);
     WriteColors(file, bmp_pad, padding_ammount);
     file.close();
-    return (0);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }
 /*
  * Given that this is SOA-stored data, we also need to de-encapsulate it:
@@ -157,11 +163,11 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
  * Then we use each SOA channel extracting exactly the pixel info that we need.
  */
 
-void BmpSOA::WriteColors(std::ofstream &file, unsigned char *bmp_pad, const u_int padding_ammount) const {
+void BmpSOA::WriteColors(std::ofstream &file, u_char *bmp_pad, const u_int padding_ammount) const {
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             std::vector<u_char> colors = GetColorOnChannels(x, y);
-            unsigned char color[] = {colors[CHAN_B] , colors[CHAN_G], colors[CHAN_R]};
+            u_char color[] = {colors[CHAN_B] , colors[CHAN_G], colors[CHAN_R]};
 
             file.write(reinterpret_cast<char*>(color), 3);
         }
