@@ -18,7 +18,7 @@ typedef unsigned int u_int;
 int ArgParser (int argc, char *argv[]);
 std::vector<std::filesystem::path> GetBmpPaths(std::string path);
 int FileCopy(const std::filesystem::path& source, const std::filesystem::path& target);
-int Functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg, std::filesystem::path endpath );
+int Functionality(std::vector<std::filesystem::path>bmp_paths, std::string lastarg, std::filesystem::path endpath );
 void LinearTransformation(float ni[3], float ci[3]);
 void Gamma(float gi[3], float cl);
 

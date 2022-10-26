@@ -12,7 +12,7 @@ struct ColorSOA {
     std::vector<u_char> greenChannel;
     std::vector<u_char> blueChannel;
     ColorSOA();
-    ColorSOA(std::vector<u_char> redChanel, std::vector<u_char> greenChanel, std::vector<u_char> blueChannel);
+    ColorSOA(std::vector<u_char> red_chanel, std::vector<u_char> green_chanel, std::vector<u_char> blue_channel);
     ~ColorSOA();
     void ResizeMembers(u_int size);
 };
@@ -39,13 +39,13 @@ private:
     u_int m_height{};
     u_int m_fileSize;
     ColorSOA m_colors;
-    int ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader);
-    void populateColors(std::ifstream &file, const unsigned char *informationHeader);
+    int ValidateHeader(const unsigned char *file_header, const unsigned char *information_header);
+    void populateColors(std::ifstream &file, const unsigned char *information_header);
 
 
-    void FillHeaders(const u_int fileSize, std::vector<char> &fileHeader, std::vector<char> &informationHeader) const;
+    void FillHeaders(const u_int file_size, std::vector<char> &file_header, std::vector<char> &information_header) const;
 
-    void WriteColors(std::ofstream &file, unsigned char *bmpPad, const u_int paddingAmmount) const;
+    void WriteColors(std::ofstream &file, unsigned char *bmp_pad, const u_int padding_ammount) const;
 };
 
 

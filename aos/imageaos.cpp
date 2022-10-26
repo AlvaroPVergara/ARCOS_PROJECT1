@@ -49,8 +49,8 @@ void ExecuteHisto(const std::filesystem::path& file_path, std::filesystem::path 
 
 /*Functionality takes a vector of BMP paths, then, for each path, it calls the execution function
  * that the user chooses in the input arguments*/
-int Functionality(std::vector<std::filesystem::path>BmpPaths, std::string lastarg, std::filesystem::path endpath ){
-    for (const auto &path :BmpPaths)
+int Functionality(std::vector<std::filesystem::path>bmp_paths, std::string lastarg, std::filesystem::path endpath ){
+    for (const auto &path :bmp_paths)
     {
         if (lastarg=="copy"){
             FileCopy(path, endpath);

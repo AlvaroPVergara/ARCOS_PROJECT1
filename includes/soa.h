@@ -7,6 +7,6 @@
 
 #include "BmpSOA.h"
 
-int gaussianTransformation(BmpSOA& bmpImg);
+int gaussianTransformation(BmpSOA& bmp_img);
 
 #endif //ARCOS_PROJECT1_SOA_H

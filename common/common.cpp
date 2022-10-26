@@ -5,15 +5,15 @@
 #include "../includes/common.h"
 
 std::vector<std::filesystem::path> GetBmpPaths(std::string path){
-    std::vector <std::filesystem::path> bmpFiles;
+    std::vector <std::filesystem::path> bmp_files;
     for (const auto & entry : std::filesystem::directory_iterator(path))
     {
         if (entry.path().extension() == ".bmp")
         {
-            bmpFiles.push_back(entry.path());
+            bmp_files.push_back(entry.path());
         }
     }
-    return (bmpFiles);
+    return (bmp_files);
 }
 
 

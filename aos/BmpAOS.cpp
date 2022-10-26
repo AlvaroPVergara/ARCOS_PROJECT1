@@ -56,18 +56,18 @@ BmpAOS::Read(const std::filesystem::path& path) {
         std::cerr << "Fatal on-read: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    u_char fileHeader[fileHeaderSize];
-    file.read(reinterpret_cast<char*>(fileHeader), fileHeaderSize);
-    u_char informationHeader[informationHeaderSize];
-    file.read(reinterpret_cast<char*>(informationHeader), informationHeaderSize);
-    if (ValidateHeader(fileHeader, informationHeader) < 0) {
+    u_char file_header[fileHeaderSize];
+    file.read(reinterpret_cast<char*>(file_header), fileHeaderSize);
+    u_char information_header[informationHeaderSize];
+    file.read(reinterpret_cast<char*>(information_header), informationHeaderSize);
+    if (ValidateHeader(file_header, information_header) < 0) {
         file.close();
         return (-1);
     }
-    int offset = fileHeader[10] + (fileHeader[11] << 8) + (fileHeader[12] << 16) + (fileHeader[13] << 24);
+    int offset = file_header[10] + (file_header[11] << 8) + (file_header[12] << 16) + (file_header[13] << 24);
     // We set the read offset to where the data should start.
     file.seekg(offset, std::ios_base::beg);
-    PopulateColors(file, informationHeader);
+    PopulateColors(file, information_header);
     file.close();
     return (0);
 }
@@ -79,11 +79,11 @@ BmpAOS::Read(const std::filesystem::path& path) {
  * AOS: We iterate over our m_colors Array Of Structurs and populate each pixel with its information.
  */
 void
-BmpAOS::PopulateColors(std::ifstream &file, const u_char *informationHeader) {
-    m_width = informationHeader[4] + (informationHeader[5] << 8) + (informationHeader[6] << 16) + (informationHeader[7] << 24);
-    m_height = informationHeader[8] + (informationHeader[9] << 8) + (informationHeader[10] << 16) + (informationHeader[11] << 24);
+BmpAOS::PopulateColors(std::ifstream &file, const u_char *information_header) {
+    m_width = information_header[4] + (information_header[5] << 8) + (information_header[6] << 16) + (information_header[7] << 24);
+    m_height = information_header[8] + (information_header[9] << 8) + (information_header[10] << 16) + (information_header[11] << 24);
     m_colors.resize(m_width * m_height);
-    const u_int paddingAmount = ((4 - (m_width * 3) % 4) % 4);
+    const u_int padding_amount = ((4 - (m_width * 3) % 4) % 4);
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             unsigned  char color[3];
@@ -92,7 +92,7 @@ BmpAOS::PopulateColors(std::ifstream &file, const u_char *informationHeader) {
             m_colors[y * m_width + x].g = color[1];
             m_colors[y * m_width + x].b = color[0];
         }
-        file.ignore(paddingAmount);
+        file.ignore(padding_amount);
     }
 }
 
@@ -101,24 +101,24 @@ BmpAOS::PopulateColors(std::ifstream &file, const u_char *informationHeader) {
  */
 
 int
-BmpAOS::ValidateHeader(const u_char *fileHeader, const u_char *informationHeader) {
-    if (fileHeader[0] != 'B' || fileHeader[1] != 'M'){
+BmpAOS::ValidateHeader(const u_char *file_header, const u_char *information_header) {
+    if (file_header[0] != 'B' || file_header[1] != 'M'){
         std::cerr << "El archivo no es un bitmap!" << std::endl;
         return (-1);
     }
-    int num_plane =  informationHeader[12] + (informationHeader[13] << 8);
+    int num_plane = information_header[12] + (information_header[13] << 8);
     if (num_plane != 1)
     {
         std::cerr << "El numero de planos del archivo es incorrecto!" << std::endl;
         return (-1);
     }
-    int pixel_size = informationHeader[14] + (informationHeader[15] << 8);
+    int pixel_size = information_header[14] + (information_header[15] << 8);
     if (pixel_size != 24)
     {
         std::cerr << "El tamaño del pixel es incorrecto!" << std::endl;
         return (-1);
     }
-    int compression = informationHeader[16] + (informationHeader[17] << 8) + (informationHeader[18] << 16) + (informationHeader[19] << 24);
+    int compression = information_header[16] + (information_header[17] << 8) + (information_header[18] << 16) + (information_header[19] << 24);
     if (compression != 0)
     {
         std::cerr << "El archivo contiene compresión, por lo que no puede ser procesado!" << std::endl;

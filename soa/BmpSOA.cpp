@@ -14,10 +14,10 @@ ColorSOA::~ColorSOA() = default;
 /*
  * On construction ColorSOA gets the three channels of the file, then stores it on its own.
  */
-ColorSOA::ColorSOA(std::vector<u_char> redChanel, std::vector<u_char> greenChanel, std::vector<u_char> blueChannel)
-        : redChannel(std::move(redChanel)),
-        greenChannel(std::move(greenChanel)),
-        blueChannel(std::move(blueChannel))
+ColorSOA::ColorSOA(std::vector<u_char> red_chanel, std::vector<u_char> green_chanel, std::vector<u_char> blue_channel)
+        : redChannel(std::move(red_chanel)),
+        greenChannel(std::move(green_chanel)),
+        blueChannel(std::move(blue_channel))
 {
 }
 /*
@@ -57,18 +57,18 @@ BmpSOA::Read(const std::filesystem::path& path)
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    unsigned char fileHeader[fileHeaderSize];
-    file.read(reinterpret_cast<char*>(fileHeader), fileHeaderSize);
-    unsigned char informationHeader[informationHeaderSize];
-    file.read(reinterpret_cast<char*>(informationHeader), informationHeaderSize);
-    if (ValidateHeader(fileHeader, informationHeader) < 0) {
+    unsigned char file_header[fileHeaderSize];
+    file.read(reinterpret_cast<char*>(file_header), fileHeaderSize);
+    unsigned char information_header[informationHeaderSize];
+    file.read(reinterpret_cast<char*>(information_header), informationHeaderSize);
+    if (ValidateHeader(file_header, information_header) < 0) {
         file.close();
         return (-1);
     }
     // We set the read offset to where the data should start.
-    int offset = fileHeader[10] + (fileHeader[11] << 8) + (fileHeader[12] << 16) + (fileHeader[13] << 24);
+    int offset = file_header[10] + (file_header[11] << 8) + (file_header[12] << 16) + (file_header[13] << 24);
     file.seekg(offset, std::ios_base::beg);
-    populateColors(file, informationHeader);
+    populateColors(file, information_header);
     file.close();
     return (0);
 }
@@ -79,11 +79,11 @@ BmpSOA::Read(const std::filesystem::path& path)
  * SOA: We iterate over each channel array of our m_colors Structure of Arrays and populate each pixel with its information.
  */
 void
-BmpSOA::populateColors(std::ifstream &file, const unsigned char *informationHeader) {
-    m_width = informationHeader[4] + (informationHeader[5] << 8) + (informationHeader[6] << 16) + (informationHeader[7] << 24);
-    m_height = informationHeader[8] + (informationHeader[9] << 8) + (informationHeader[10] << 16) + (informationHeader[11] << 24);
+BmpSOA::populateColors(std::ifstream &file, const unsigned char *information_header) {
+    m_width = information_header[4] + (information_header[5] << 8) + (information_header[6] << 16) + (information_header[7] << 24);
+    m_height = information_header[8] + (information_header[9] << 8) + (information_header[10] << 16) + (information_header[11] << 24);
     m_colors.ResizeMembers(m_width * m_height);
-    const u_int paddingAmount = ((4 - (m_width * 3) % 4) % 4);
+    const u_int padding_amount = ((4 - (m_width * 3) % 4) % 4);
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             unsigned  char color[3];
@@ -92,7 +92,7 @@ BmpSOA::populateColors(std::ifstream &file, const unsigned char *informationHead
             m_colors.greenChannel[y * m_width + x] = color[1];
             m_colors.blueChannel[y * m_width + x] = color[0];
         }
-        file.ignore(paddingAmount);
+        file.ignore(padding_amount);
     }
 }
 
@@ -101,24 +101,24 @@ BmpSOA::populateColors(std::ifstream &file, const unsigned char *informationHead
  */
 
 int
-BmpSOA::ValidateHeader(const unsigned char *fileHeader, const unsigned char *informationHeader) {
-    if (fileHeader[0] != 'B' || fileHeader[1] != 'M'){
+BmpSOA::ValidateHeader(const unsigned char *file_header, const unsigned char *information_header) {
+    if (file_header[0] != 'B' || file_header[1] != 'M'){
         std::cerr << "El archivo no es un bitmap!" << std::endl;
         return (-1);
     }
-    int num_plane =  informationHeader[12] + (informationHeader[13] << 8);
+    int num_plane = information_header[12] + (information_header[13] << 8);
     if (num_plane != 1)
     {
         std::cerr << "El numero de planos del archivo es incorrecto!" << std::endl;
         return (-1);
     }
-    int pixel_size = informationHeader[14] + (informationHeader[15] << 8);
+    int pixel_size = information_header[14] + (information_header[15] << 8);
     if (pixel_size != 24)
     {
         std::cerr << "El tamaño del pixel es incorrecto!" << std::endl;
         return (-1);
     }
-    int compression = informationHeader[16] + (informationHeader[17] << 8) + (informationHeader[18] << 16) + (informationHeader[19] << 24);
+    int compression = information_header[16] + (information_header[17] << 8) + (information_header[18] << 16) + (information_header[19] << 24);
     if (compression != 0)
     {
         std::cerr << "El archivo contiene compresión, por lo que no puede ser procesado!" << std::endl;
@@ -139,15 +139,15 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    unsigned char bmpPad[3] = { 0, 0, 0};
-    const u_int paddingAmmount = ((4 - (m_width * 3) % 4) % 4);
-    const u_int fileSize = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + paddingAmmount * m_width;
-    std::vector<char>fileHeader (fileHeaderSize, 0);
-    std::vector<char>informationHeader (informationHeaderSize, 0);
-    FillHeaders(fileSize, fileHeader, informationHeader);
-    file.write(reinterpret_cast<char *>(fileHeader.data()), fileHeaderSize);
-    file.write(reinterpret_cast<char *>(informationHeader.data()), informationHeaderSize);
-    WriteColors(file, bmpPad, paddingAmmount);
+    unsigned char bmp_pad[3] = {0, 0, 0};
+    const u_int padding_ammount = ((4 - (m_width * 3) % 4) % 4);
+    const u_int file_size = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + padding_ammount * m_width;
+    std::vector<char>file_header (fileHeaderSize, 0);
+    std::vector<char>information_header (informationHeaderSize, 0);
+    FillHeaders(file_size, file_header, information_header);
+    file.write(reinterpret_cast<char *>(file_header.data()), fileHeaderSize);
+    file.write(reinterpret_cast<char *>(information_header.data()), informationHeaderSize);
+    WriteColors(file, bmp_pad, padding_ammount);
     file.close();
     return (0);
 }
@@ -157,7 +157,7 @@ int BmpSOA::Export(const std::filesystem::path& path) const {
  * Then we use each SOA channel extracting exactly the pixel info that we need.
  */
 
-void BmpSOA::WriteColors(std::ofstream &file, unsigned char *bmpPad, const u_int paddingAmmount) const {
+void BmpSOA::WriteColors(std::ofstream &file, unsigned char *bmp_pad, const u_int padding_ammount) const {
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             std::vector<u_char> colors = GetColorOnChannels(x, y);
@@ -165,40 +165,40 @@ void BmpSOA::WriteColors(std::ofstream &file, unsigned char *bmpPad, const u_int
 
             file.write(reinterpret_cast<char*>(color), 3);
         }
-        file.write(reinterpret_cast<char *>(bmpPad), paddingAmmount);
+        file.write(reinterpret_cast<char *>(bmp_pad), padding_ammount);
     }
 }
 /*
  * Helper function to generate the header in memory.
  * We use bit-shift for writing the correct bits of numbers on the memory-bytes.
  */
-void BmpSOA::FillHeaders(const u_int fileSize, std::vector<char> &fileHeader,
-                         std::vector<char> &informationHeader) const {//File type
-    fileHeader[0] = 'B';
-    fileHeader[1] = 'M';
+void BmpSOA::FillHeaders(const u_int file_size, std::vector<char> &file_header,
+                         std::vector<char> &information_header) const {//File type
+    file_header[0] = 'B';
+    file_header[1] = 'M';
     //File size
-    fileHeader[2] = fileSize;
-    fileHeader[3] = fileSize >> 8;
-    fileHeader[4] = fileSize >> 16;
-    fileHeader[5] = fileSize >> 24;
+    file_header[2] = file_size;
+    file_header[3] = file_size >> 8;
+    file_header[4] = file_size >> 16;
+    file_header[5] = file_size >> 24;
     // Pixel data offset
-    fileHeader[10] = fileHeaderSize + informationHeaderSize;
+    file_header[10] = fileHeaderSize + informationHeaderSize;
     // Header size
-    informationHeader[0] = informationHeaderSize;
+    information_header[0] = informationHeaderSize;
     // width
-    informationHeader[4] = m_width;
-    informationHeader[5] = m_width >> 8;
-    informationHeader[6] = m_width >> 16;
-    informationHeader[7] = m_width >> 24;
+    information_header[4] = m_width;
+    information_header[5] = m_width >> 8;
+    information_header[6] = m_width >> 16;
+    information_header[7] = m_width >> 24;
     // height
-    informationHeader[8] = m_height;
-    informationHeader[9] = m_height >> 8;
-    informationHeader[10] = m_height >> 16;
-    informationHeader[11] = m_height >> 24;
+    information_header[8] = m_height;
+    information_header[9] = m_height >> 8;
+    information_header[10] = m_height >> 16;
+    information_header[11] = m_height >> 24;
     // planes
-    informationHeader[12] = 1;
+    information_header[12] = 1;
     // bpp
-    informationHeader[14] = 24;
+    information_header[14] = 24;
 }
 
 /*

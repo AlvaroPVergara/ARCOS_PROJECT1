@@ -10,9 +10,9 @@
 int FileCopy(const std::filesystem::path& source, const std::filesystem::path& target)
 {
     //First, the path of the copy is going to be the path of the target directory plus the name of the file
-    std::filesystem::path finalpath = target / source.filename();
+    std::filesystem::path final_path = target / source.filename();
     //Then it copies the file and returns -1 if fails
-    if (!std::filesystem::copy_file(source, finalpath, std::filesystem::copy_options::overwrite_existing))
+    if (!std::filesystem::copy_file(source, final_path, std::filesystem::copy_options::overwrite_existing))
     {
         std::cerr << "Fallo al copiar archivo"<<std::endl;
         return(-1);

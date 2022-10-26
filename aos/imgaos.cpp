@@ -6,15 +6,15 @@
 
 int main (int argc, char *argv[])
 {
-    std::vector<std::filesystem::path> BmpPaths;
+    std::vector<std::filesystem::path> bmp_paths;
     if (ArgParser(argc, argv) < 0)
         return (-1);
-    BmpPaths = GetBmpPaths(argv[1]);
-    if (BmpPaths.empty()){
+    bmp_paths = GetBmpPaths(argv[1]);
+    if (bmp_paths.empty()){
         std::cerr << "No hay ninguna imagen bmp en el directorio de entrada" << std::endl;
     }
 
-    if (Functionality(BmpPaths, static_cast<std::string>(argv[3]), static_cast<std::filesystem::path>(argv[2]))<0){
+    if (Functionality(bmp_paths, static_cast<std::string>(argv[3]), static_cast<std::filesystem::path>(argv[2])) < 0){
         return (-1);
     }
     return (0);
