@@ -11,7 +11,8 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
-#include <math.h>
+#include <cmath>
+#include <chrono>
 
 typedef unsigned char u_char;
 typedef unsigned int u_int;

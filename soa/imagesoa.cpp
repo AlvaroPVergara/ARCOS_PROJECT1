@@ -10,7 +10,7 @@
 
 /*ExecuteFunction is used for execute the mono and gauss functions, it takes the path of the file (BMP)
  * and the exit directory for the path, it also takes what function it needs to be done
- * (MonoSOA/gaussianTransformation).*/
+ * (MonoSOA/GaussianTransformation).*/
 void execute_function(const std::filesystem::path& file_path, std::filesystem::path path_out_dir, int(*function)(BmpSOA&)){
     //First, it creates the BmpSOA objet and fills it with the path given
     BmpSOA bmp;

@@ -3,6 +3,7 @@
 //
 
 #include "../includes/BmpAOS.h"
+#include "../includes/common.h"
 /*
  * Our AOS structure, for each instance of the structure we have 3 bytes to store pixel information.
  */
@@ -48,8 +49,10 @@ BmpAOS::SetColor(const ColorAOS &color, u_int x, u_int y) {
  * Main read function. We need open the file, check the headers and then fill our Bmp object with the pixel
  * colors on the image.
  * */
-int
+
+long long int
 BmpAOS::Read(const std::filesystem::path& path) {
+    auto start_time = std::chrono::high_resolution_clock::now();
     std::ifstream file;
     file.open(path.generic_string(), std::ios::in | std::ios::binary);
     if (!file.is_open()) {
@@ -69,7 +72,8 @@ BmpAOS::Read(const std::filesystem::path& path) {
     file.seekg(offset, std::ios_base::beg);
     PopulateColors(file, information_header);
     file.close();
-    return (0);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }
 
 /*
@@ -132,7 +136,8 @@ BmpAOS::ValidateHeader(const u_char *file_header, const u_char *information_head
  * attributes of our bmp and then dump our color data on the file.
  */
 
-int BmpAOS::Export(const std::filesystem::path& path) const {
+long long int BmpAOS::Export(const std::filesystem::path& path) const {
+    auto start_time = std::chrono::high_resolution_clock::now();
     std::ofstream file;
     file.open(path.generic_string(), std::ios::out | std::ios::binary);
     if (!file.is_open()) {
@@ -149,7 +154,8 @@ int BmpAOS::Export(const std::filesystem::path& path) const {
     file.write(reinterpret_cast<char *>(informationHeader.data()), informationHeaderSize);
     WriteColors(file, bmpPad, paddingAmmount);
     file.close();
-    return (0);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }
 
 /*

@@ -4,8 +4,9 @@
 #include "../includes/common.h"
 #include "../includes/BmpAOS.h"
 
-int MonoAOS(BmpAOS& file)
+long long int MonoAOS(BmpAOS& file)
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     int m_width , m_height;
     float cl;
     float ni[3],ci[3], gi[3];
@@ -29,6 +30,6 @@ int MonoAOS(BmpAOS& file)
             m_colors[i].g = gi[1];
             m_colors[i].b = gi[2];
     }
-    //std::cout << m_colors[3].r << "pixel 3 rojo" <<std::endl;
-    return 0;
+    auto end_time = std::chrono::high_resolution_clock::now();
+    return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
 }

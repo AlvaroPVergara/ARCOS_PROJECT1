@@ -17,9 +17,9 @@ struct N_Colors
 
 class HistoAOS {
 public:
-    void write(std::string filename);
-    void count_colors();
-    int histogram(BmpAOS file, std::string filename);
+    long long int write(std::string filename);
+    long long int count_colors();
+    std::vector<long long int> histogram(BmpAOS file, std::string filename);
     std::vector<N_Colors> n_colors;
     int m_width{};
     int m_height{};

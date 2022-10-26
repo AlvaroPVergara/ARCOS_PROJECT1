@@ -23,8 +23,9 @@ public:
     void SetColor(const ColorAOS& color, u_int x, u_int y);
     static const u_int fileHeaderSize = 14;
     static const u_int informationHeaderSize = 40;
-    int Read(const std::filesystem::path& path);
-    [[nodiscard]] int Export(const std::filesystem::path& path) const;
+    static const short emptyFlag = 0;
+    long long int Read(const std::filesystem::path& path);
+    [[nodiscard]] long long int Export(const std::filesystem::path& path) const;
     [[nodiscard]] u_int GetWidth() const;
     [[nodiscard]] u_int GetHeight() const;
     std::vector<ColorAOS> &GetMColors();
