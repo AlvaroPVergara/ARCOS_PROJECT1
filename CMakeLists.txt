@@ -19,3 +19,5 @@ target_link_libraries(imgaos common aos)
 
 add_executable(imgsoa soa/imgsoa.cpp)
 target_link_libraries(imgsoa common soa)
+
+add_subdirectory(Google_tests)
