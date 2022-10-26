@@ -45,7 +45,7 @@ std::vector<long long int> ExecuteHisto(const std::filesystem::path& file_path, 
     std::string new_path = path_out_dir.generic_string() + "/HistoAOS-" + new_filename.generic_string();
 
     //Lastly it creates the histogram
-    std::vector<long long int>time_exec_export = hs.histogram(bmp,new_path);
+    std::vector<long long int>time_exec_export = hs.Histogram(bmp,new_path);
 
     return std::vector<long long int>{
             time_read,
