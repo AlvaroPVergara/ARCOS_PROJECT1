@@ -42,7 +42,7 @@ void ExecuteHisto(const std::filesystem::path& file_path, std::filesystem::path 
     std::string new_path = path_out_dir.generic_string() + "/HistoAOS-" + new_filename.generic_string();
 
     //Lastly it creates the histogram
-    if (hs.histogram(bmp,new_path)<0){
+    if (hs.Histogram(bmp, new_path) < 0){
         std::cerr<< "Failed creating histo" << std::endl;
     }
 }
