@@ -4,6 +4,8 @@
 
 #include "../includes/common.h"
 
+/*The GetBmpPaths function takes a path from a directory, then opens it and
+ * stores all the paths from its .bmp files into a vector that returns*/
 std::vector<std::filesystem::path> GetBmpPaths(std::string path){
     std::vector <std::filesystem::path> bmp_files;
     for (const auto & entry : std::filesystem::directory_iterator(path))
