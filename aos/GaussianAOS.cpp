@@ -12,7 +12,6 @@ ApplyTransformation(BmpAOS &bmp_img, const std::vector<std::vector<float>> &matr
     //std::vector<std::vector<ColorAOS>>   pixelKernel[5][5];
     float result[3] = {0.0f, 0.0f, 0.0f};
     ColorAOS buff_pixel;
-
     for (int i = -2; i < 3; ++i) {
         for (int j = -2; j < 3; ++j) {
             buff_pixel = ((x + i >= 0) && (y + j >= 0) && ((x + i) < static_cast<int>(bmp_img.GetWidth())) && ((y + j) < static_cast<int>(bmp_img.GetHeight()))) ? bmp_img.GetColor(x + i, y + j) : ColorAOS(0, 0, 0);

@@ -15,7 +15,10 @@ ApplyTransformation(BmpSOA &bmp_img, const std::vector<std::vector<float>> &matr
     for (int i = -2; i < 3; ++i) {
         for (int j = -2; j < 3; ++j) {
 
-            buff_pixel = ((x + i >= 0) && (y + j >= 0) && ((x + i) < static_cast<int>(bmp_img.GetWidth())) && ((y + j) < static_cast<int>(bmp_img.GetHeight()))) ? bmp_img.GetColorOnChannels(x + i, y + j) : std::vector<u_char>(3, 0);
+            buff_pixel = ((x + i >= 0) && (y + j >= 0) && ((x + i) <
+                    static_cast<int>(bmp_img.GetWidth())) && ((y + j) <
+                            static_cast<int>(bmp_img.GetHeight()))) ?
+                                    bmp_img.GetColorOnChannels(x + i, y + j) : std::vector<u_char>(3, 0);
 
             float floating_pixels[3] = {
                     static_cast<float>(buff_pixel[bmp_img.CHAN_R]) / 255.0f,

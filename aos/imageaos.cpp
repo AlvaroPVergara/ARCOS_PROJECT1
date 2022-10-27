@@ -28,7 +28,7 @@ ExecuteFunction(const std::filesystem::path& file_path, const std::filesystem::p
             time_exec,
             time_export
     };
-};
+}
 
 /*ExecuteHisto is the adapted version of ExecuteFunction to work with histograms.*/
 std::vector<long long int>
