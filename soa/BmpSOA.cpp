@@ -104,7 +104,7 @@ BmpSOA::populateColors(std::ifstream &file, const u_char *information_header) {
  */
 
 int
-BmpSOA::ValidateHeader(const u_char *file_header, const u_char *information_header) {
+BmpSOA::ValidateHeader(const u_char file_header[fileHeaderSize], const u_char information_header[informationHeaderSize]) {
     if (file_header[0] != 'B' || file_header[1] != 'M'){
         std::cerr << "El archivo no es un bitmap!" << std::endl;
         return (-1);
@@ -144,7 +144,6 @@ BmpSOA::Export(const std::filesystem::path& path) const {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    u_char bmp_pad[3] = {0, 0, 0};
     const u_int padding_ammount = ((4 - (m_width * 3) % 4) % 4);
     const u_int file_size = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + padding_ammount * m_width;
     std::vector<char>file_header (fileHeaderSize, 0);
@@ -152,7 +151,7 @@ BmpSOA::Export(const std::filesystem::path& path) const {
     FillHeaders(file_size, file_header, information_header);
     file.write(reinterpret_cast<char *>(file_header.data()), fileHeaderSize);
     file.write(reinterpret_cast<char *>(information_header.data()), informationHeaderSize);
-    WriteColors(file, bmp_pad, padding_ammount);
+    WriteColors(file, padding_ammount);
     file.close();
     auto end_time = std::chrono::high_resolution_clock::now();
     return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
@@ -163,7 +162,8 @@ BmpSOA::Export(const std::filesystem::path& path) const {
  * Then we use each SOA channel extracting exactly the pixel info that we need.
  */
 
-void BmpSOA::WriteColors(std::ofstream &file, u_char *bmp_pad, const u_int padding_ammount) const {
+void BmpSOA::WriteColors(std::ofstream &file, const u_int padding_ammount) const {
+    u_char bmp_pad[3] = {0, 0, 0};
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             std::vector<u_char> colors = GetColorOnChannels(x, y);

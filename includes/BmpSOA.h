@@ -46,7 +46,7 @@ private:
 
     void FillHeaders(const u_int file_size, std::vector<char> &file_header, std::vector<char> &information_header) const;
 
-    void WriteColors(std::ofstream &file, unsigned char *bmp_pad, const u_int padding_ammount) const;
+    void WriteColors(std::ofstream &file, const u_int padding_ammount) const;
 };
 
 

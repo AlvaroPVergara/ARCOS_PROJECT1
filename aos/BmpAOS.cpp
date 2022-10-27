@@ -105,7 +105,7 @@ BmpAOS::PopulateColors(std::ifstream &file, const u_char *information_header) {
  */
 
 int
-BmpAOS::ValidateHeader(const u_char *file_header, const u_char *information_header) {
+BmpAOS::ValidateHeader(const u_char file_header[fileHeaderSize], const u_char information_header[informationHeaderSize]) {
     if (file_header[0] != 'B' || file_header[1] != 'M'){
         std::cerr << "El archivo no es un bitmap!" << std::endl;
         return (-1);
@@ -145,7 +145,6 @@ BmpAOS::Export(const std::filesystem::path& path) const {
         std::cerr << "Fatal: File opening failed after existence check" << std::endl;
         return (-1);
     }
-    unsigned char bmpPad[3] = { 0, 0, 0};
     const u_int paddingAmmount = ((4 - (m_width * 3) % 4) % 4);
     const u_int fileSize = fileHeaderSize + informationHeaderSize + m_width * m_height * 3 + paddingAmmount * m_width;
     std::vector<char>fileHeader (fileHeaderSize, 0);
@@ -153,7 +152,7 @@ BmpAOS::Export(const std::filesystem::path& path) const {
     FillHeader(fileSize, fileHeader, informationHeader);
     file.write(reinterpret_cast<char *>(fileHeader.data()), fileHeaderSize);
     file.write(reinterpret_cast<char *>(informationHeader.data()), informationHeaderSize);
-    WriteColors(file, bmpPad, paddingAmmount);
+    WriteColors(file, paddingAmmount);
     file.close();
     auto end_time = std::chrono::high_resolution_clock::now();
     return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());
@@ -166,7 +165,9 @@ BmpAOS::Export(const std::filesystem::path& path) const {
  * Note that we are using byte arrays only when we need a buffer for writing.
  */
 
-void BmpAOS::WriteColors(std::ofstream &file, unsigned char *bmpPad, const u_int paddingAmmount) const {
+void
+BmpAOS::WriteColors(std::ofstream &file, const u_int paddingAmmount) const {
+    unsigned char bmpPad[3] = { 0, 0, 0};
     for (u_int y = 0; y < m_height; y++) {
         for (u_int x = 0; x < m_width; x++) {
             unsigned char color[] = {
@@ -185,7 +186,8 @@ void BmpAOS::WriteColors(std::ofstream &file, unsigned char *bmpPad, const u_int
  * We use bit-shift for writing the correct bits of numbers on the memory-bytes.
  */
 
-void BmpAOS::FillHeader(const u_int fileSize, std::vector<char> &fileHeader,
+void
+BmpAOS::FillHeader(const u_int fileSize, std::vector<char> &fileHeader,
                         std::vector<char> &informationHeader) const {//File type
     fileHeader[0] = 'B';
     fileHeader[1] = 'M';
@@ -218,14 +220,17 @@ void BmpAOS::FillHeader(const u_int fileSize, std::vector<char> &fileHeader,
  * Getters for members.
  */
 
-u_int BmpAOS::GetWidth() const {
+u_int
+BmpAOS::GetWidth() const {
     return m_width;
 }
 
-u_int BmpAOS::GetHeight() const {
+u_int
+BmpAOS::GetHeight() const {
     return m_height;
 }
 
-std::vector<ColorAOS> &BmpAOS::GetMColors() {
+std::vector<ColorAOS>
+&BmpAOS::GetMColors() {
     return m_colors;
 }
