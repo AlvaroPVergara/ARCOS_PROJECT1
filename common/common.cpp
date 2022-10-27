@@ -3,8 +3,6 @@
 //
 
 #include "../includes/common.h"
-#include "../includes/aos.h"
-#include "../includes/soa.h"
 
 /*The GetBmpPaths function takes a path from a directory, then opens it and
  * stores all the paths from its .bmp files into a vector that returns*/
