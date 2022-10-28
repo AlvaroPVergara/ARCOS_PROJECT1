@@ -17,7 +17,7 @@ std::vector<long long int>
 ExecuteFunction(const std::filesystem::path& file_path, const std::filesystem::path& path_out_dir, long long int(*function)(BmpAOS&)){
     //First, it creates the BmpAos objet and fills it with the path given
     BmpAOS bmp;
-    //TODO: ERROR CHECKS
+
     long long int time_read = bmp.Read(file_path);
     //Then it executes the third parameter function
     long long int time_exec = function(bmp);
@@ -40,8 +40,8 @@ ExecuteHisto(const std::filesystem::path& file_path, const std::filesystem::path
     long long int time_read = bmp.Read(file_path);
     //For teh output file name, it will be the output directory plus the name of the file without
     //extension and then the changed extension to .txt
-    std::filesystem::path new_filename = file_path.filename().replace_extension(".txt");
-    std::string new_path = path_out_dir.generic_string() + "/HistoAOS-" + new_filename.generic_string();
+    std::filesystem::path new_filename = file_path.filename().replace_extension(".hst");
+    std::string new_path = path_out_dir.generic_string() + new_filename.generic_string();
 
     //Lastly it creates the histogram
     std::vector<long long int>time_exec_export = hs.Histogram(bmp,new_path);

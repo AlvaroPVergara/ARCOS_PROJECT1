@@ -22,15 +22,15 @@ long long int HistoSOA::WriteHistogram(std::string filename)
     /*We write each color next to the number of times it is repeated,
      * first one channel completed and then the next one*/
     for ( int i = 0; i<=255; i++){
-        outfile<<i<<":"<<n_colors.r[i]<<std::endl;
+        outfile<<n_colors.r[i]<<std::endl;
     }
 
     for ( int i = 0; i<=255; i++){
-        outfile<<i<<":"<<n_colors.g[i]<<std::endl;
+        outfile<<n_colors.g[i]<<std::endl;
     }
 
     for ( int i = 0; i<=255; i++){
-        outfile<<i<<":"<<n_colors.b[i]<<std::endl;
+        outfile<<n_colors.b[i]<<std::endl;
     }
     auto end_time = std::chrono::high_resolution_clock::now();
     return (std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count());

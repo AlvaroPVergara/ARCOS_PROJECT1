@@ -2,5 +2,5 @@ project(Google_tests)
 add_subdirectory(lib/googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(Google_Tests_run ConverterTests.cpp)
+add_executable(Google_Tests_run MainAOS.cpp Main.cpp MainSOA.cpp)
 target_link_libraries(Google_Tests_run gtest gtest_main)
